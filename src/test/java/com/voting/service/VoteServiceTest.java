@@ -32,7 +32,6 @@ public class VoteServiceTest {
     @Autowired
     private VoteService service;
 
-
     @Autowired
     private UserService userService;
 
@@ -45,22 +44,38 @@ public class VoteServiceTest {
         User user = userService.get(100001);
         Resto resto = restoService.get(100003);
 
-        Calendar calendar = new GregorianCalendar(2018,Calendar.NOVEMBER,02);
+        Calendar calendar = new GregorianCalendar(2018,Calendar.NOVEMBER,03);
         Date date = calendar.getTime();
+
         Vote vote = new Vote(null, user, resto, date, LocalDateTime.now());
-        System.out.println("=================================");
-        System.out.println(vote);
-        System.out.println("=================================");
         service.create(vote, 100001);
     }
 
     @Test
     public void update() {
+        User user = userService.get(100001);
+        Resto resto = restoService.get(100003);
+
+        Calendar calendar = new GregorianCalendar(2018,Calendar.NOVEMBER,03);
+        Date date = calendar.getTime();
+
+        Vote vote = new Vote(null, user, resto, date, LocalDateTime.now());
+        service.create(vote, 100001);
+
+        Vote newVote = service.get(100127, 100001);
+        newVote.setResto(restoService.get(100004));
+        calendar = new GregorianCalendar(2018,Calendar.NOVEMBER,01);
+        date = calendar.getTime();
+        newVote.setDate(date);
+        service.update(newVote, 100001);
+
+
     }
 
 
     @Test
     public void get() {
+        System.out.println(service.get(100030,100001));
 
     }
 

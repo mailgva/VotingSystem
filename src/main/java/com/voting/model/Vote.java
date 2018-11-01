@@ -13,9 +13,18 @@ import java.util.Date;
 
 @NamedQueries({
         @NamedQuery(name = Vote.DELETE, query = "DELETE FROM Vote v WHERE v.id=:id AND v.user.id=:userId"),
-        @NamedQuery(name = Vote.ALL_SORTED, query = "SELECT v FROM Vote v WHERE v.user.id=:userId ORDER BY v.date DESC"),
+        @NamedQuery(name = Vote.ALL_SORTED, query = "SELECT v FROM Vote v " +
+                "JOIN FETCH v.resto JOIN FETCH v.user " +
+                "WHERE v.user.id=:userId ORDER BY v.date DESC"),
         @NamedQuery(name = Vote.GET_BETWEEN, query = "SELECT v FROM Vote v " +
-                "WHERE v.user.id=:userId AND v.date BETWEEN :startDate AND :endDate ORDER BY v.date DESC")
+                "JOIN FETCH v.resto JOIN FETCH v.user " +
+                "WHERE v.user.id=:userId AND v.date BETWEEN :startDate AND :endDate ORDER BY v.date DESC"),
+        @NamedQuery(name = Vote.GET_USER_BY_DATE, query = "SELECT v FROM Vote v " +
+                "JOIN FETCH v.resto JOIN FETCH v.user " +
+                "WHERE v.user.id=:userId AND v.date=:date "),
+        @NamedQuery(name = Vote.GET_ALL_BY_DATE, query = "SELECT v FROM Vote v " +
+                "JOIN FETCH v.resto JOIN FETCH v.user " +
+                "WHERE v.date=:date"),
 })
 @Entity
 @Table(name = "voting", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "rest_id", "date"}, name = "voting_unique_user_rest_date_idx")})
@@ -24,6 +33,8 @@ public class Vote extends AbstractBaseEntity{
     public static final String DELETE = "Vote.delete";
     public static final String ALL_SORTED = "Vote.getAll";
     public static final String GET_BETWEEN = "Vote.getBetween";
+    public static final String GET_ALL_BY_DATE = "Vote.getAllByDate";
+    public static final String GET_USER_BY_DATE = "Vote.getUserByDate";
 
 
     @ManyToOne(fetch = FetchType.LAZY)

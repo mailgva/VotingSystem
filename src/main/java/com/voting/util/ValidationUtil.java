@@ -7,26 +7,34 @@ import com.voting.util.exception.NotFoundException;
 import com.voting.util.exception.TooLateEcxeption;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 public class ValidationUtil {
 
+    private static Calendar setTimeTo(Calendar calendar, int hours, int minutes, int seconds, int milliseconds) {
+        calendar.set(Calendar.HOUR_OF_DAY, hours);
+        calendar.set(Calendar.MINUTE,minutes);
+        calendar.set(Calendar.SECOND,seconds);
+        calendar.set(Calendar.MILLISECOND,milliseconds);
+        return calendar;
+    }
+
     public static void checkTooLate(Vote vote) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-        long seconds = 11 * 60 * 60;
 
-        if((vote.getDate().getDate() == (new Date().getDate())) && ((new Date()).getTime() > seconds))
+        Calendar voteDate = Calendar.getInstance();
+        voteDate.setTime(vote.getDate());
+
+        Calendar limitDate = Calendar.getInstance();
+        limitDate = setTimeTo(limitDate, 11,0,0,0);
+
+
+        if(voteDate.before(limitDate))
             throw new TooLateEcxeption(sdf.format(vote.getDate()) + " - it's to late to select restaurant");
 
-        Date limitDate = new Date();
-
-        limitDate.setTime(seconds);
-        Date settingDate = vote.getDate();
-        settingDate.setTime(seconds);
-
-        if(limitDate.before(settingDate))
-          throw new TooLateEcxeption(sdf.format(vote.getDate()) + " - it's to late to select restaurant");
     }
 
     public static <T> T checkNotFoundWithId(T object, int id) {
