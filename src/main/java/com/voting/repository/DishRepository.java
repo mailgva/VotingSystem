@@ -13,9 +13,9 @@ public interface DishRepository {
     // null if not found
     Dish get(int id);
 
-    /*// null if not found
-    Dish getByEmail(String email);
-    */
+    // null if not found
+    List<Dish> getByName(String name);
+
 
     List<Dish> getAll();
 }

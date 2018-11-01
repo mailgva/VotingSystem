@@ -2,20 +2,28 @@ package com.voting.model;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @NamedQueries({
-        @NamedQuery(name = Vote.DELETE, query = "DELETE FROM Vote v WHERE v.id=:id AND v.user.id=:userId")
+        @NamedQuery(name = Vote.DELETE, query = "DELETE FROM Vote v WHERE v.id=:id AND v.user.id=:userId"),
+        @NamedQuery(name = Vote.ALL_SORTED, query = "SELECT v FROM Vote v WHERE v.user.id=:userId ORDER BY v.date DESC"),
+        @NamedQuery(name = Vote.GET_BETWEEN, query = "SELECT v FROM Vote v " +
+                "WHERE v.user.id=:userId AND v.date BETWEEN :startDate AND :endDate ORDER BY v.date DESC")
 })
 @Entity
 @Table(name = "voting", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "rest_id", "date"}, name = "voting_unique_user_rest_date_idx")})
 public class Vote extends AbstractBaseEntity{
 
     public static final String DELETE = "Vote.delete";
+    public static final String ALL_SORTED = "Vote.getAll";
+    public static final String GET_BETWEEN = "Vote.getBetween";
 
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,11 +38,13 @@ public class Vote extends AbstractBaseEntity{
     @NotNull
     private Resto resto;
 
-    @Column(name = "date")
+    @Column(name = "date", nullable = false)
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull
     private Date date;
 
-    @Column(name = "date_time")
+    @Column(name = "date_time", nullable = false)
     @NotNull
     private LocalDateTime dateTime;
 
@@ -95,12 +105,14 @@ public class Vote extends AbstractBaseEntity{
 
     @Override
     public String toString() {
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return "Vote{" +
                 "id=" + id +
-                ", user=" + user +
-                ", resto=" + resto +
-                ", date=" + date +
-                ", dateTime=" + dateTime +
+                ", \nuser=" + user +
+                ", \nresto=" + resto +
+                ", \ndate=" + fmt.format(date) +
+                ", \ndateTime=" + dtf.format(dateTime) +
                 '}';
     }
 }

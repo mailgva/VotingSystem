@@ -1,6 +1,7 @@
-package com.voting.service;
+package com.voting.service.impl;
 
 import com.voting.repository.UserRepository;
+import com.voting.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;

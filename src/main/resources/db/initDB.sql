@@ -32,7 +32,7 @@ CREATE TABLE restaurants
 (
   id               INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
   name             VARCHAR                 NOT NULL,
-  address          VARCHAR,
+  address          VARCHAR
 );
 CREATE UNIQUE INDEX restaurants_unique_name_idx ON restaurants (name);
 
@@ -41,9 +41,9 @@ CREATE TABLE dishes
 (
   id               INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
   name             VARCHAR                 NOT NULL,
-  price            DECIMAL                 NOT NULL,
+  price            DECIMAL                 NOT NULL
   --rest_id          INTEGER,
-  FOREIGN KEY (rest_id) REFERENCES restaurants (id) ON DELETE CASCADE
+  --FOREIGN KEY (rest_id) REFERENCES restaurants (id) ON DELETE CASCADE
 );
 --CREATE UNIQUE INDEX dishes_unique_name_rest_idx ON dishes (rest_id, name);
 CREATE UNIQUE INDEX dishes_unique_name_idx ON dishes (name);

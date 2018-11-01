@@ -2,13 +2,37 @@ package com.voting.util;
 
 
 import com.voting.model.AbstractBaseEntity;
+import com.voting.model.Vote;
 import com.voting.util.exception.NotFoundException;
+import com.voting.util.exception.TooLateEcxeption;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 public class ValidationUtil {
+
+    public static void checkTooLate(Vote vote) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        long seconds = 11 * 60 * 60;
+
+        if((vote.getDate().getDate() == (new Date().getDate())) && ((new Date()).getTime() > seconds))
+            throw new TooLateEcxeption(sdf.format(vote.getDate()) + " - it's to late to select restaurant");
+
+        Date limitDate = new Date();
+
+        limitDate.setTime(seconds);
+        Date settingDate = vote.getDate();
+        settingDate.setTime(seconds);
+
+        if(limitDate.before(settingDate))
+          throw new TooLateEcxeption(sdf.format(vote.getDate()) + " - it's to late to select restaurant");
+    }
 
     public static <T> T checkNotFoundWithId(T object, int id) {
         return checkNotFound(object, "id=" + id);
     }
+
 
     private ValidationUtil() {
     }

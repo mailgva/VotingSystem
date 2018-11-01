@@ -12,7 +12,7 @@ public interface DishService {
 
     Dish get(int id) throws NotFoundException;
 
-    //Dish getByEmail(String email) throws NotFoundException;
+    List<Dish> getByName(String name) throws NotFoundException;
 
     void update(Dish dish);
 

@@ -1,7 +1,8 @@
 package com.voting.web.user;
 
+import com.voting.model.User;
 import org.springframework.stereotype.Controller;
-import ru.javawebinar.topjava.model.User;
+
 
 import java.util.List;
 

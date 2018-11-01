@@ -1,13 +1,18 @@
 package com.voting.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 
+@NamedQueries({
+        @NamedQuery(name = Resto.GET_BY_NAME, query = "SELECT r FROM Resto r WHERE UPPER(r.name) = UPPER(:name)"),
+        @NamedQuery(name = Resto.GET_ALL, query = "SELECT r FROM Resto r ORDER BY r.name")
+})
 @Entity
 @Table(name = "restaurants", uniqueConstraints = {@UniqueConstraint(columnNames = "id", name = "restaurants_unique_name_idx")})
 public class Resto extends AbstractNamedEntity {
+    public static final String GET_BY_NAME = "Resto.getByName";
+    public static final String GET_ALL = "Resto.getAll";
+
+
     @Column(name = "address")
     private String address;
 

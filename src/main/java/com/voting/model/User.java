@@ -1,7 +1,6 @@
 package com.voting.model;
 
 
-import org.hibernate.validator.constraints.Range;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
