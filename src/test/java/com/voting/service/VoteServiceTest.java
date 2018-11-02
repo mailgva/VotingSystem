@@ -44,7 +44,7 @@ public class VoteServiceTest {
         User user = userService.get(100001);
         Resto resto = restoService.get(100003);
 
-        Calendar calendar = new GregorianCalendar(2018,Calendar.NOVEMBER,03);
+        Calendar calendar = new GregorianCalendar(2018,Calendar.NOVEMBER,01);
         Date date = calendar.getTime();
 
         Vote vote = new Vote(null, user, resto, date, LocalDateTime.now());

@@ -23,18 +23,23 @@ public class ValidationUtil {
     }
 
     public static void checkTooLate(Vote vote) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
         Calendar voteDate = Calendar.getInstance();
         voteDate.setTime(vote.getDate());
 
         Calendar limitDate = Calendar.getInstance();
-        limitDate = setTimeTo(limitDate, 11,0,0,0);
 
-
-        if(voteDate.before(limitDate))
+        // если дата меньше сегодняшней
+        limitDate = setTimeTo(limitDate, 0,0,0,0);
+        if(voteDate.getTime().before(limitDate.getTime()))
             throw new TooLateEcxeption(sdf.format(vote.getDate()) + " - it's to late to select restaurant");
-
+        // если сегодняшняя дата
+        if(voteDate.getTime().equals(limitDate.getTime())){
+            limitDate = setTimeTo(limitDate, 11,0,0,0);
+            if(Calendar.getInstance().getTime().after(limitDate.getTime()))
+                throw new TooLateEcxeption(sdf.format(vote.getDate()) + " - it's to late to select restaurant, already after 11:00 ");
+        }
     }
 
     public static <T> T checkNotFoundWithId(T object, int id) {
