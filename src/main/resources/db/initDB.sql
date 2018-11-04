@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS voting;
+DROP TABLE IF EXISTS votes;
 DROP TABLE IF EXISTS daily_menu;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS dishes;
@@ -59,7 +59,7 @@ CREATE TABLE daily_menu (
 );
 CREATE UNIQUE INDEX dailymenu_unique_date_rest_dish_idx ON daily_menu (date, rest_id, dish_id);
 
-CREATE TABLE voting (
+CREATE TABLE votes (
   id          INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
   user_id     INTEGER   NOT NULL,
   rest_id     INTEGER   NOT NULL,
@@ -68,7 +68,7 @@ CREATE TABLE voting (
   FOREIGN KEY (user_id) REFERENCES users (id)       ON DELETE CASCADE,
   FOREIGN KEY (rest_id) REFERENCES restaurants (id) ON DELETE CASCADE
 );
-CREATE UNIQUE INDEX voting_unique_user_rest_date_idx ON voting (user_id, rest_id, date);
+CREATE UNIQUE INDEX votes_unique_user_rest_date_idx ON votes (user_id, rest_id, date);
 
 
 

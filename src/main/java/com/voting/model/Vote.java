@@ -27,7 +27,7 @@ import java.util.Date;
                 "WHERE v.date=:date"),
 })
 @Entity
-@Table(name = "voting", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "rest_id", "date"}, name = "voting_unique_user_rest_date_idx")})
+@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "rest_id", "date"}, name = "voting_unique_user_rest_date_idx")})
 public class Vote extends AbstractBaseEntity{
 
     public static final String DELETE = "Vote.delete";
