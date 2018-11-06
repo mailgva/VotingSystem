@@ -3,9 +3,11 @@ package com.voting.repository.datajpa;
 import com.voting.model.Dish;
 import com.voting.repository.DishRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class DataJpaDishRepositoryImpl implements DishRepository {
     @Autowired
     private CrudDishRepository crudDishRepository;
@@ -32,6 +34,6 @@ public class DataJpaDishRepositoryImpl implements DishRepository {
 
     @Override
     public List<Dish> getAll() {
-        return crudDishRepository.getAll();
+        return crudDishRepository.findAll();
     }
 }

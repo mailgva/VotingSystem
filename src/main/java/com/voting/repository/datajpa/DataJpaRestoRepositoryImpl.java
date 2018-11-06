@@ -1,11 +1,14 @@
 package com.voting.repository.datajpa;
 
 import com.voting.model.Resto;
+import com.voting.model.User;
 import com.voting.repository.RestoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class DataJpaRestoRepositoryImpl implements RestoRepository {
 
     @Autowired
@@ -23,7 +26,7 @@ public class DataJpaRestoRepositoryImpl implements RestoRepository {
 
     @Override
     public Resto get(int id) {
-        return crudRestoRepository.getOne(id);
+        return crudRestoRepository.get(id);
     }
 
     @Override

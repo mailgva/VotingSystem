@@ -2,29 +2,25 @@ package com.voting.web.voting;
 
 import com.voting.model.Vote;
 import com.voting.service.VoteService;
-import com.voting.util.DateTimeUtil;
-import com.voting.util.MealsUtil;
 import com.voting.web.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.List;
+import java.util.Date;
 
 import static com.voting.util.ValidationUtil.assureIdConsistent;
 import static com.voting.util.ValidationUtil.checkNew;
 
 @Controller
-public class VotingRestController {
-    private static final Logger log = LoggerFactory.getLogger(VotingRestController.class);
+public class VoteRestController {
+    private static final Logger log = LoggerFactory.getLogger(VoteRestController.class);
 
     private final VoteService service;
 
     @Autowired
-    public VotingRestController(VoteService service) {
+    public VoteRestController(VoteService service) {
         this.service = service;
     }
 
@@ -34,11 +30,20 @@ public class VotingRestController {
         return service.get(id, userId);
     }
 
+    public Vote getByDate(Date date) {
+        int userId = SecurityUtil.authUserId();
+        log.info("getByDate vote {} for user {}", date, userId);
+        return service.getByDate(date, userId);
+    }
+
+
     public void delete(int id) {
         int userId = SecurityUtil.authUserId();
-        log.info("delete meal {} for user {}", id, userId);
+        log.info("delete vote {} for user {}", id, userId);
         service.delete(id, userId);
     }
+
+
     /*
     public List<Vote> getAll() {
         int userId = SecurityUtil.authUserId();
@@ -59,6 +64,9 @@ public class VotingRestController {
         log.info("update {} for user {}", vote, userId);
         service.update(vote, userId);
     }
+
+
+
 
     /**
      * <ol>Filter separately

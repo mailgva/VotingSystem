@@ -22,7 +22,7 @@ public interface VoteRepository {
     // ORDERED dateTime desc
     List<Vote> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId);
 
-    List<Vote> getUserByDate(Date date, int userId);
+    Vote getByDate(Date date, int userId);
 
     List<Vote> getAllByDate(Date date);
 }

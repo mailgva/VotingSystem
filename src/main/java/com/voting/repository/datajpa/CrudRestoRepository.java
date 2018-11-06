@@ -1,6 +1,7 @@
 package com.voting.repository.datajpa;
 
 import com.voting.model.Resto;
+import com.voting.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -19,10 +20,12 @@ public interface CrudRestoRepository extends JpaRepository<Resto, Integer> {
     int delete(@Param("id") int id);
 
     // null if not found
-    Resto get(int id);
+    @Query("SELECT r FROM Resto r WHERE r.id=:id")
+    Resto get(@Param("id") int id);
 
     // null if not found
-    Resto getByName(String name);
+    @Query("SELECT r FROM Resto r WHERE r.name=:name")
+    Resto getByName(@Param("name") String name);
 
     List<Resto> getAll();
 }

@@ -6,6 +6,7 @@ import com.voting.model.Vote;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
@@ -27,6 +28,7 @@ import static org.junit.Assert.*;
 })
 @RunWith(SpringRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
+@ActiveProfiles({"datajpa","postgres"})
 public class VoteServiceTest {
 
     @Autowired
@@ -94,6 +96,16 @@ public class VoteServiceTest {
     @Test
     public void getAll() {
     }
+
+
+    @Test
+    public void getByDate() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = sdf.parse("2018-11-11");
+        Vote vote = service.getByDate(date, 100000);
+        //System.out.println(vote);
+    }
+
 
 
 }

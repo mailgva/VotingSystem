@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 
 @NamedQueries({
         @NamedQuery(name = Vote.DELETE, query = "DELETE FROM Vote v WHERE v.id=:id AND v.user.id=:userId"),
@@ -28,7 +29,7 @@ import java.util.Date;
 })
 @Entity
 @Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "rest_id", "date"}, name = "voting_unique_user_rest_date_idx")})
-public class Vote extends AbstractBaseEntity{
+public class Vote extends AbstractBaseEntity {
 
     public static final String DELETE = "Vote.delete";
     public static final String ALL_SORTED = "Vote.getAll";
@@ -50,8 +51,8 @@ public class Vote extends AbstractBaseEntity{
     private Resto resto;
 
     @Column(name = "date", nullable = false)
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    //@Temporal(TemporalType.DATE)
+    //@DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull
     private Date date;
 

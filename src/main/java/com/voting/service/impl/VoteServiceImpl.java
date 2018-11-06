@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import static com.voting.util.ValidationUtil.checkNotFoundWithId;
@@ -57,5 +59,16 @@ public class VoteServiceImpl implements VoteService {
         Assert.notNull(vote, "vote must not be null");
         checkTooLate(vote);
         return repository.save(vote, userId);
+    }
+
+    @Override
+    public List<Vote> getBetweenDates(LocalDate startDate, LocalDate endDate, int userId) {
+        return null; // repository.getBetween(startDate,endDate,userId);
+    }
+
+    @Override
+    public Vote getByDate(Date date, int userId) {
+        System.out.println("========== Vote getByDate in VoteServiceImpl" );
+        return repository.getByDate(date, userId);
     }
 }

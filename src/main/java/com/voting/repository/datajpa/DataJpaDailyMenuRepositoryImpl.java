@@ -4,10 +4,12 @@ import com.voting.model.DailyMenu;
 import com.voting.repository.DailyMenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
 
+@Repository
 public class DataJpaDailyMenuRepositoryImpl implements DailyMenuRepository {
     private static final Sort SORT_DATE = new Sort(Sort.Direction.DESC, "date");
     private static final Sort SORT_NAME = new Sort(Sort.Direction.ASC,  "resto.name");
@@ -37,11 +39,11 @@ public class DataJpaDailyMenuRepositoryImpl implements DailyMenuRepository {
 
     @Override
     public List<DailyMenu> getByNameResto(String nameResto) {
-        return crudDailyMenuRepository.findAllByNameResto(nameResto);
+        return null; // crudDailyMenuRepository.findAllByNameResto(nameResto);
     }
 
     @Override
     public List<DailyMenu> getAll() {
-        return crudDailyMenuRepository.getAllOrderByDateDescAndOrderByNameRestoAsc();
+        return null; // crudDailyMenuRepository.getAllOrderByDateDescAndOrderByNameRestoAsc();
     }
 }

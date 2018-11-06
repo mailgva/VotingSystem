@@ -1,19 +1,19 @@
 package com.voting.service;
 
+import com.voting.ActiveDbProfileResolver;
 import com.voting.model.Role;
 import com.voting.model.User;
 import com.voting.util.exception.NotFoundException;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 //import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.dao.DataAccessException;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
@@ -33,6 +33,8 @@ import static org.slf4j.LoggerFactory.getLogger;
 })
 @RunWith(SpringRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
+//@ActiveProfiles(resolver = ActiveDbProfileResolver.class)
+@ActiveProfiles({"datajpa","postgres"})
 public class UserServiceTest {
 
     static {
@@ -46,6 +48,15 @@ public class UserServiceTest {
     private static List<String> testLog = new ArrayList<>();
 
     private static long startTest;
+
+
+    @Autowired
+    private CacheManager cacheManager;
+
+    @Before
+    public void setUp() throws Exception {
+        cacheManager.getCache("users").clear();
+    }
 
 
     @Rule

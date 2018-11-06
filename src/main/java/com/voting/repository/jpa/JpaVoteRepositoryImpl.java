@@ -72,11 +72,11 @@ public class JpaVoteRepositoryImpl implements VoteRepository {
     }
 
     @Override
-    public List<Vote> getUserByDate(Date date, int userId) {
+    public Vote getByDate(Date date, int userId) {
         return em.createNamedQuery(Vote.GET_USER_BY_DATE, Vote.class)
                 .setParameter("userId", userId)
                 .setParameter("date", date)
-                .getResultList();
+                .getSingleResult();
     }
 
     @Override

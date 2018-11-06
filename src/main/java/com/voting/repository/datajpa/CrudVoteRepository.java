@@ -1,7 +1,11 @@
 package com.voting.repository.datajpa;
 
+import com.voting.model.User;
 import com.voting.model.Vote;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -11,22 +15,28 @@ import java.util.List;
 
 @Transactional(readOnly = true)
 public interface CrudVoteRepository extends JpaRepository<Vote, Integer> {
-    // null if updated meal do not belong to userId
-    Vote save(Vote vote, int userId);
+    @Transactional
+    Vote save(Vote vote);
 
-    // false if meal do not belong to userId
-    boolean delete(int id, int userId);
+    @Modifying
+    @Query("DELETE FROM Vote v WHERE v.id=:id and v.user.id=:userId")
+    int delete(@Param("id") int id, @Param("userId") int userId);
+
 
     // null if meal do not belong to userId
-    Vote get(int id, int userId);
+    @Query("SELECT v FROM Vote v WHERE v.id=:id")
+    Vote get(@Param("id") int id);
+
 
     // ORDERED dateTime desc
     List<Vote> getAll(int userId);
 
     // ORDERED dateTime desc
-    List<Vote> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId);
+    //List<Vote> getBetween(Date startDate, Date endDate, int userId);
 
-    List<Vote> getUserByDate(Date date, int userId);
+    @Query("SELECT v FROM Vote v JOIN FETCH v.resto " +
+            "JOIN FETCH v.user WHERE v.date=:date and v.user.id=:userId")
+    Vote getByDate(@Param("date") Date date, @Param("userId") int userId);
 
     List<Vote> getAllByDate(Date date);
 }

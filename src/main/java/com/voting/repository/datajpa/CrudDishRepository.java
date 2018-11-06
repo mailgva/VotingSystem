@@ -29,5 +29,5 @@ public interface CrudDishRepository extends JpaRepository<Dish, Integer> {
     List<Dish> getByName(String name);
 
 
-    List<Dish> getAll();
+    List<Dish> findAll();
 }

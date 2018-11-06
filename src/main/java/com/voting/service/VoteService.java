@@ -7,6 +7,7 @@ import com.voting.util.exception.TooLateEcxeption;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 
 public interface VoteService {
@@ -25,4 +26,6 @@ public interface VoteService {
     void update(Vote vote, int userId) throws NotFoundException, TooLateEcxeption;
 
     Vote create(Vote vote, int userId) throws TooLateEcxeption;
+
+    Vote getByDate(Date date, int userId);
 }
