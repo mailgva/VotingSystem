@@ -68,7 +68,6 @@ public class VoteServiceImpl implements VoteService {
 
     @Override
     public Vote getByDate(Date date, int userId) {
-        System.out.println("========== Vote getByDate in VoteServiceImpl" );
         return repository.getByDate(date, userId);
     }
 }

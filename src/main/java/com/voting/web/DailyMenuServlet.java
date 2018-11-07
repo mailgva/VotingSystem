@@ -63,11 +63,11 @@ public class DailyMenuServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
-        if(date==null) {
-            date = new Date();
-        }
+        if(date==null) date = new Date();
 
-        request.setAttribute("dailyMenus", DailyMenuUtil.convertToDailyMenuTo(dailyMenuRestController.getByDate(date), voteRestController.getByDate(date)));
+        request.setAttribute("dateMenu", sdf.format(date));
+        request.setAttribute("dailyMenus",
+                DailyMenuUtil.convertToDailyMenuTo(dailyMenuRestController.getByDate(date), voteRestController.getByDate(date)));
         request.getRequestDispatcher("/dailymenu.jsp").forward(request, response);
 
 
@@ -89,15 +89,15 @@ public class DailyMenuServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
-        if(date==null) {
-            date = new Date();
-        }
+        if(date==null) date = new Date();
 
         switch (action == null ? "all" : action) {
             case "all":
             default:
+                request.setAttribute("dateMenu", sdf.format(date));
                 request.setAttribute("dailyMenus", DailyMenuUtil.convertToDailyMenuTo(dailyMenuRestController.getByDate(date), voteRestController.getByDate(date)));
                 request.getRequestDispatcher("/dailymenu.jsp").forward(request, response);
+                break;
         }
 
 

@@ -37,7 +37,6 @@ public class DataJpaVoteRepositoryImpl implements VoteRepository {
 
     @Override
     public Vote getByDate(Date date, int userId) {
-        System.out.println("========== Vote getByDate in DataJpaVoteRepositoryImpl" );
         return crudVoteRepository.getByDate(date, userId);
     }
 

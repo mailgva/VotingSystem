@@ -14,7 +14,7 @@
     <form method="post" action="dailymenu?action=filter">
         <dl>
             <dt>From Date:</dt>
-            <dd><input type="date" name="date" value="${param.date}"></dd>
+            <dd><input type="date" name="date" value="${(param.date != null ? param.date : dateMenu)}"></dd>
         </dl>
         <button type="submit">Filter</button>
     </form>
@@ -29,7 +29,7 @@
         </thead>
         <c:forEach items="${dailyMenus}" var="dailyMenu">
             <jsp:useBean id="dailyMenu" scope="page" type="com.voting.to.DailyMenuTo"/>
-            <tr data-mealExcess="${dailyMenu.selected}">
+            <tr data-restSelected="${dailyMenu.selected}">
                 <td>${dailyMenu.resto.name}</td>
                 <td>${dailyMenu.dish.name}</td>
                 <td>${dailyMenu.dish.price}</td>
