@@ -60,11 +60,17 @@ public class Vote extends AbstractBaseEntity {
     @NotNull
     private LocalDateTime dateTime;
 
-    public Vote() {
+    public Vote(Resto resto, Date date, LocalDateTime dateTime) {
+        this.resto = resto;
+        this.date = date;
+        this.dateTime = dateTime;
     }
 
     public Vote(Vote v) {
         this(v.getUser(), v.getResto(), v.getDate(), v.getDateTime());
+    }
+
+    public Vote(){
     }
 
     public Vote(User user, Resto resto, Date date, LocalDateTime dateTime) {

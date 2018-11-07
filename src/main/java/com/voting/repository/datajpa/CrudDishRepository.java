@@ -30,4 +30,6 @@ public interface CrudDishRepository extends JpaRepository<Dish, Integer> {
 
 
     List<Dish> findAll();
+
+    List<Dish> findByNameAndPrice(String name, double price);
 }

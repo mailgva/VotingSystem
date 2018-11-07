@@ -1,7 +1,6 @@
 package com.voting.repository.datajpa;
 
 import com.voting.model.Resto;
-import com.voting.model.User;
 import com.voting.repository.RestoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

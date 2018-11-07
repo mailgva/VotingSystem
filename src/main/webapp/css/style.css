@@ -14,11 +14,23 @@ dd {
     margin-left: 8px;
     vertical-align: top;
 }
+th {
+    height: 15px;
+}
 
+/*
 tr[data-restSelected="true"] {
     background-color: green;
 }
 
 tr[data-restSelected="false"] {
+    background-color: white;
+}
+*/
+dt[data-restSelected="true"] {
+    background-color: green;
+}
+
+dt[data-restSelected="false"] {
     background-color: white;
 }

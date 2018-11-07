@@ -16,7 +16,7 @@ import static com.voting.util.ValidationUtil.checkNew;
 
 @Controller
 public class DailyMenuRestController {
-    private static final Logger log = LoggerFactory.getLogger(VoteRestController.class);
+    private static final Logger log = LoggerFactory.getLogger(DailyMenuRestController.class);
 
     private final DailyMenuService service;
 

@@ -1,7 +1,10 @@
 package com.voting.web;
 
+import com.voting.model.Resto;
+import com.voting.model.Vote;
 import com.voting.util.DailyMenuUtil;
 import com.voting.web.dailyMenu.DailyMenuRestController;
+import com.voting.web.resto.RestoRestController;
 import com.voting.web.voting.VoteRestController;
 import org.slf4j.Logger;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -17,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
@@ -28,6 +32,7 @@ public class DailyMenuServlet extends HttpServlet {
     private ConfigurableApplicationContext springContext;
     private DailyMenuRestController dailyMenuRestController;
     private VoteRestController voteRestController;
+    private RestoRestController restRestController;
 
 
     @Override
@@ -37,7 +42,8 @@ public class DailyMenuServlet extends HttpServlet {
         springContext = new ClassPathXmlApplicationContext("spring/spring-app.xml", "spring/spring-db.xml");
 
         dailyMenuRestController = springContext.getBean(DailyMenuRestController.class);
-        voteRestController =springContext.getBean(VoteRestController.class);
+        voteRestController = springContext.getBean(VoteRestController.class);
+        restRestController = springContext.getBean(RestoRestController.class);
     }
 
     @Override
@@ -51,6 +57,8 @@ public class DailyMenuServlet extends HttpServlet {
         log.info("DOPOST IN DailyMenuServlet");
         request.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
+
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
         log.info("DATE_PARAM = " + request.getParameter("date"));
@@ -63,8 +71,30 @@ public class DailyMenuServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
-        if(date==null) date = new Date();
+        /*
+        System.out.println("===============");
+        request.getParameterMap().forEach((k,v)->System.out.println("Item : " + k + " Value : " + v));
+        System.out.println("===============");*/
 
+        Vote vote;
+        if("vote".equals(action)) {
+
+            Resto resto = restRestController.get(Integer.parseInt(request.getParameter("restoId")));
+            vote = new Vote(
+                    resto,
+                    date,
+                    LocalDateTime.now());
+
+            if (request.getParameter("voteId").isEmpty()) {
+                voteRestController.create(vote);
+            } else {
+                voteRestController.update(vote, Integer.parseInt(request.getParameter("voteId")));
+            }
+        }
+
+        if(date==null) date = new Date();
+        vote = voteRestController.getByDate(date);
+        request.setAttribute("voteId", (vote == null ? null : vote.getId()));
         request.setAttribute("dateMenu", sdf.format(date));
         request.setAttribute("dailyMenus",
                 DailyMenuUtil.convertToDailyMenuTo(dailyMenuRestController.getByDate(date), voteRestController.getByDate(date)));
@@ -91,9 +121,12 @@ public class DailyMenuServlet extends HttpServlet {
         }
         if(date==null) date = new Date();
 
+        Vote vote = voteRestController.getByDate(date);
+
         switch (action == null ? "all" : action) {
             case "all":
             default:
+                request.setAttribute("voteId", (vote == null ? null : vote.getId()));
                 request.setAttribute("dateMenu", sdf.format(date));
                 request.setAttribute("dailyMenus", DailyMenuUtil.convertToDailyMenuTo(dailyMenuRestController.getByDate(date), voteRestController.getByDate(date)));
                 request.getRequestDispatcher("/dailymenu.jsp").forward(request, response);
@@ -101,28 +134,6 @@ public class DailyMenuServlet extends HttpServlet {
         }
 
 
-        /*
-        switch (action == null ? "all" : action) {
-            case "delete":
-                int id = getId(request);
-                mealController.delete(id);
-                response.sendRedirect("meals");
-                break;
-            case "create":
-            case "update":
-                final Meal meal = "create".equals(action) ?
-                        new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000) :
-                        mealController.get(getId(request));
-                request.setAttribute("meal", meal);
-                request.getRequestDispatcher("/mealForm.jsp").forward(request, response);
-                break;
-            case "all":
-            default:
-                request.setAttribute("meals", mealController.getAll());
-                request.getRequestDispatcher("/meals.jsp").forward(request, response);
-                break;
-        }
-        */
     }
 
     private int getId(HttpServletRequest request) {

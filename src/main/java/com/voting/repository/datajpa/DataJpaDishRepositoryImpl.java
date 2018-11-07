@@ -36,4 +36,8 @@ public class DataJpaDishRepositoryImpl implements DishRepository {
     public List<Dish> getAll() {
         return crudDishRepository.findAll();
     }
+
+    public List<Dish> findByNameAndPrice(String name, double price) {
+        return crudDishRepository.findByNameAndPrice(name, price);
+    }
 }
