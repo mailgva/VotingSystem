@@ -3,6 +3,7 @@ package com.voting.service;
 import com.voting.model.Resto;
 import com.voting.model.User;
 import com.voting.model.Vote;
+import com.voting.util.exception.TooLateEcxeption;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,12 +54,12 @@ public class VoteServiceTest {
         service.create(vote, 100001);
     }
 
-    @Test
+    @Test(expected = TooLateEcxeption.class)
     public void update() {
         User user = userService.get(100001);
         Resto resto = restoService.get(100003);
 
-        Calendar calendar = new GregorianCalendar(2018,Calendar.NOVEMBER,03);
+        Calendar calendar = new GregorianCalendar(2018,Calendar.NOVEMBER,07);
         Date date = calendar.getTime();
 
         Vote vote = new Vote(null, user, resto, date, LocalDateTime.now());

@@ -54,14 +54,12 @@ public class DailyMenuServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        log.info("DOPOST IN DailyMenuServlet");
         request.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
 
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-        log.info("DATE_PARAM = " + request.getParameter("date"));
 
         Date date = null;
         if(request.getParameter("date") != null) {
