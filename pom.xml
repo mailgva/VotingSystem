@@ -41,7 +41,7 @@
     </properties>
 
     <build>
-        <finalName>topjava</finalName>
+        <finalName>voting</finalName>
         <defaultGoal>package</defaultGoal>
         <plugins>
             <plugin>
@@ -91,8 +91,8 @@
                     </configuration>
                     <deployables>
                         <deployable>
-                            <groupId>ru.javawebinar</groupId>
-                            <artifactId>topjava</artifactId>
+                            <groupId>com.voting</groupId>
+                            <artifactId>voting</artifactId>
                             <type>war</type>
                             <properties>
                                 <context>${project.build.finalName}</context>
