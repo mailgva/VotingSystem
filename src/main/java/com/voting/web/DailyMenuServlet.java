@@ -95,7 +95,7 @@ public class DailyMenuServlet extends HttpServlet {
         request.setAttribute("voteId", (vote == null ? null : vote.getId()));
         request.setAttribute("dateMenu", sdf.format(date));
         request.setAttribute("dailyMenus",
-                DailyMenuUtil.convertToDailyMenuTo(dailyMenuRestController.getByDate(date), voteRestController.getByDate(date)));
+                DailyMenuUtil.convertToDailyMenuTo(dailyMenuRestController.getByDate(date), vote));
         request.getRequestDispatcher("/dailymenu.jsp").forward(request, response);
 
 
@@ -126,7 +126,7 @@ public class DailyMenuServlet extends HttpServlet {
             default:
                 request.setAttribute("voteId", (vote == null ? null : vote.getId()));
                 request.setAttribute("dateMenu", sdf.format(date));
-                request.setAttribute("dailyMenus", DailyMenuUtil.convertToDailyMenuTo(dailyMenuRestController.getByDate(date), voteRestController.getByDate(date)));
+                request.setAttribute("dailyMenus", DailyMenuUtil.convertToDailyMenuTo(dailyMenuRestController.getByDate(date), vote));
                 request.getRequestDispatcher("/dailymenu.jsp").forward(request, response);
                 break;
         }

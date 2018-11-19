@@ -48,52 +48,12 @@ public class JspVotiningController {
     @GetMapping("")
     public String getDailyMenu(HttpServletRequest request, Model model) {
         return getDailyMenuByDate(request, model);
-        /*int userId = SecurityUtil.authUserId();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-        Date date = null;
-        if(request.getParameter("date") != null) {
-            try {
-                date = sdf.parse(request.getParameter("date"));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-        if(date==null) date = new Date();
-
-        Vote vote = service.getByDate(date, userId);
-
-        model.addAttribute("voteId", (vote == null ? null : vote.getId()));
-        model.addAttribute("dateMenu", sdf.format(date));
-        model.addAttribute("dailyMenus",
-                DailyMenuUtil.convertToDailyMenuTo(dailyMenuService.getByDate(date), service.getByDate(date, userId)));
-        return "dailymenu";*/
     }
 
 
     @PostMapping("")
     public String getDailyMenuFiltered(HttpServletRequest request, Model model)  {
         return getDailyMenuByDate(request, model);
-        /*int userId = SecurityUtil.authUserId();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-        Date date = null;
-        if(request.getParameter("date") != null) {
-            try {
-                date = sdf.parse(request.getParameter("date"));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-        if(date==null) date = new Date();
-
-        Vote vote = service.getByDate(date, userId);
-
-        model.addAttribute("voteId", (vote == null ? null : vote.getId()));
-        model.addAttribute("dateMenu", sdf.format(date));
-        model.addAttribute("dailyMenus",
-                DailyMenuUtil.convertToDailyMenuTo(dailyMenuService.getByDate(date), service.getByDate(date, userId)));
-        return "dailymenu";*/
     }
 
     private String getDailyMenuByDate(HttpServletRequest request, Model model) {
@@ -115,7 +75,7 @@ public class JspVotiningController {
         model.addAttribute("voteId", (vote == null ? null : vote.getId()));
         model.addAttribute("dateMenu", sdf.format(date));
         model.addAttribute("dailyMenus",
-                DailyMenuUtil.convertToDailyMenuTo(dailyMenuService.getByDate(date), service.getByDate(date, userId)));
+                DailyMenuUtil.convertToDailyMenuTo(dailyMenuService.getByDate(date), vote));
         return "dailymenu";
     }
 

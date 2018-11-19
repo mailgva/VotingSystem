@@ -2,6 +2,7 @@ package com.voting.repository.datajpa;
 
 import com.voting.model.User;
 import com.voting.model.Vote;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -34,8 +35,10 @@ public interface CrudVoteRepository extends JpaRepository<Vote, Integer> {
     // ORDERED dateTime desc
     //List<Vote> getBetween(Date startDate, Date endDate, int userId);
 
-    @Query("SELECT v FROM Vote v JOIN FETCH v.resto " +
-            "JOIN FETCH v.user WHERE v.date=:date and v.user.id=:userId")
+    /*@Query("SELECT v FROM Vote v JOIN FETCH v.resto " +
+            "JOIN FETCH v.user WHERE v.date=:date and v.user.id=:userId")*/
+    @EntityGraph(attributePaths = {"resto" , "user"})
+    @Query("SELECT v FROM Vote v WHERE v.user.id=:userId AND v.date=:date")
     Vote getByDate(@Param("date") Date date, @Param("userId") int userId);
 
     List<Vote> getAllByDate(Date date);

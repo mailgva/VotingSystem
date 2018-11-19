@@ -76,8 +76,7 @@ public class JpaVoteRepositoryImpl implements VoteRepository {
         return em.createNamedQuery(Vote.GET_USER_BY_DATE, Vote.class)
                 .setParameter("userId", userId)
                 .setParameter("date", date)
-                //.getSingleResult()
-                .getResultList().stream().findFirst().orElse(null);
+                .getSingleResult();
     }
 
     @Override

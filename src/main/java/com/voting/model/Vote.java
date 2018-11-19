@@ -20,8 +20,11 @@ import java.util.List;
         @NamedQuery(name = Vote.GET_BETWEEN, query = "SELECT v FROM Vote v " +
                 "JOIN FETCH v.resto JOIN FETCH v.user " +
                 "WHERE v.user.id=:userId AND v.date BETWEEN :startDate AND :endDate ORDER BY v.date DESC"),
-        @NamedQuery(name = Vote.GET_USER_BY_DATE, query = "SELECT v FROM Vote v " +
+        /*@NamedQuery(name = Vote.GET_USER_BY_DATE, query = "SELECT v FROM Vote v " +
                 "JOIN FETCH v.resto JOIN FETCH v.user " +
+                "WHERE v.user.id=:userId AND v.date=:date "),*/
+        @NamedQuery(name = Vote.GET_USER_BY_DATE, query = "SELECT v FROM Vote v " +
+                //"JOIN FETCH v.resto JOIN FETCH v.user " +
                 "WHERE v.user.id=:userId AND v.date=:date "),
         @NamedQuery(name = Vote.GET_ALL_BY_DATE, query = "SELECT v FROM Vote v " +
                 "JOIN FETCH v.resto JOIN FETCH v.user " +
