@@ -59,6 +59,7 @@
                 <version>2.22.0</version>
                 <configuration>
                     <argLine>-Dfile.encoding=UTF-8</argLine>
+                    <argLine>-Dconsole.encoding=UTF-8</argLine>
                 </configuration>
             </plugin>
 
