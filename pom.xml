@@ -230,15 +230,23 @@
 
     <profiles>
         <profile>
+            <id>hsqldb</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.hsqldb</groupId>
+                    <artifactId>hsqldb</artifactId>
+                    <version>2.4.1</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
             <id>h2</id>
             <dependencies>
                 <dependency>
                     <groupId>com.h2database</groupId>
                     <artifactId>h2</artifactId>
                     <version>1.4.197</version>
-                    <!--<scope>test</scope>-->
                 </dependency>
-
             </dependencies>
         </profile>
         <profile>

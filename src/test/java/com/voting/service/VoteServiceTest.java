@@ -28,8 +28,8 @@ import static org.junit.Assert.*;
         "classpath:spring/spring-db.xml"
 })
 @RunWith(SpringRunner.class)
-@Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-@ActiveProfiles({"datajpa","postgres"})
+//@Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
+@ActiveProfiles({"datajpa","hsqldb"})
 public class VoteServiceTest {
 
     @Autowired
@@ -47,7 +47,7 @@ public class VoteServiceTest {
         User user = userService.get(100001);
         Resto resto = restoService.get(100003);
 
-        Calendar calendar = new GregorianCalendar(2018,Calendar.NOVEMBER,03);
+        Calendar calendar = new GregorianCalendar(2018,Calendar.NOVEMBER,21);
         Date date = calendar.getTime();
 
         Vote vote = new Vote(null, user, resto, date, LocalDateTime.now());
@@ -84,6 +84,7 @@ public class VoteServiceTest {
 
     @Test
     public void delete() {
+        service.delete(100031, 100000);
     }
 
     @Test
@@ -96,6 +97,7 @@ public class VoteServiceTest {
 
     @Test
     public void getAll() {
+        service.getAll(100001).stream().forEach(System.out::println);
     }
 
 
@@ -104,7 +106,7 @@ public class VoteServiceTest {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = sdf.parse("2018-11-11");
         Vote vote = service.getByDate(date, 100000);
-        //System.out.println(vote);
+        System.out.println(vote);
     }
 
 

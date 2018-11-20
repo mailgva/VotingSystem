@@ -25,12 +25,14 @@ public interface CrudVoteRepository extends JpaRepository<Vote, Integer> {
 
 
     // null if meal do not belong to userId
+    @EntityGraph(attributePaths = {"resto" , "user"})
     @Query("SELECT v FROM Vote v WHERE v.id=:id")
     Vote get(@Param("id") int id);
 
 
     // ORDERED dateTime desc
-    List<Vote> getAll(int userId);
+    @EntityGraph(attributePaths = {"resto" , "user"})
+    List<Vote> getAll(@Param("userId") int userId);
 
     // ORDERED dateTime desc
     //List<Vote> getBetween(Date startDate, Date endDate, int userId);
