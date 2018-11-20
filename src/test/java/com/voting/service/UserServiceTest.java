@@ -32,9 +32,9 @@ import static org.slf4j.LoggerFactory.getLogger;
         "classpath:spring/spring-db.xml"
 })
 @RunWith(SpringRunner.class)
-@Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
+//@Sql(scripts = "classpath:db/populateDBH2.sql", config = @SqlConfig(encoding = "UTF-8"))
 //@ActiveProfiles(resolver = ActiveDbProfileResolver.class)
-@ActiveProfiles({"datajpa","postgres"})
+@ActiveProfiles({"datajpa","h2"})
 public class UserServiceTest {
 
     static {
