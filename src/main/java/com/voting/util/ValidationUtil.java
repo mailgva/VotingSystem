@@ -1,15 +1,18 @@
 package com.voting.util;
 
 
+import com.voting.Profiles;
 import com.voting.model.AbstractBaseEntity;
 import com.voting.model.Vote;
 import com.voting.util.exception.NotFoundException;
 import com.voting.util.exception.TooLateEcxeption;
+import org.springframework.util.Assert;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 
 public class ValidationUtil {
@@ -78,5 +81,16 @@ public class ValidationUtil {
         } else if (entity.getId() != id) {
             throw new IllegalArgumentException(entity + " must be with id=" + id);
         }
+    }
+
+    //  http://stackoverflow.com/a/28565320/548473
+    public static Throwable getRootCause(Throwable t) {
+        Throwable result = t;
+        Throwable cause;
+
+        while (null != (cause = result.getCause()) && (result != cause)) {
+            result = cause;
+        }
+        return result;
     }
 }

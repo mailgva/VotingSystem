@@ -1,23 +1,18 @@
 package com.voting.service;
 
-import com.voting.ActiveDbProfileResolver;
 import com.voting.model.Role;
 import com.voting.model.User;
+import com.voting.repository.JpaUtil;
 import com.voting.util.exception.NotFoundException;
 import org.junit.*;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
-//import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
+import org.springframework.context.ApplicationContext;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,15 +22,8 @@ import java.util.List;
 import static com.voting.UserTestData.*;
 import static org.slf4j.LoggerFactory.getLogger;
 
-@ContextConfiguration({
-        "classpath:spring/spring-app.xml",
-        "classpath:spring/spring-db.xml"
-})
-@RunWith(SpringRunner.class)
-//@Sql(scripts = "classpath:db/populateDBH2.sql", config = @SqlConfig(encoding = "UTF-8"))
-//@ActiveProfiles(resolver = ActiveDbProfileResolver.class)
-@ActiveProfiles({"datajpa","h2"})
-public class UserServiceTest {
+@ActiveProfiles("datajpa")
+public class UserServiceTest  extends AbstractServiceTest{
 
     static {
         // Only for postgres driver logging
@@ -53,9 +41,17 @@ public class UserServiceTest {
     @Autowired
     private CacheManager cacheManager;
 
+    @Autowired
+    private ApplicationContext appContext;
+
+    @Autowired
+    protected JpaUtil jpaUtil;
+
     @Before
     public void setUp() throws Exception {
         cacheManager.getCache("users").clear();
+        jpaUtil = appContext.getBean(JpaUtil.class);
+        jpaUtil.clear2ndLevelHibernateCache();
     }
 
 

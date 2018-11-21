@@ -11,10 +11,10 @@ CREATE SEQUENCE global_seq START 100000;
 
 CREATE TABLE users
 (
-  id               INTEGER default global_seq.nextval primary key,
-  name             VARCHAR                 NOT NULL,
-  email            VARCHAR                 NOT NULL,
-  password         VARCHAR                 NOT NULL,
+  id               INTEGER default next value for global_seq primary key,
+  name             VARCHAR(255)                 NOT NULL,
+  email            VARCHAR(255)                 NOT NULL,
+  password         VARCHAR(255)                 NOT NULL,
   registered       TIMESTAMP DEFAULT now() NOT NULL,
   enabled          BOOL DEFAULT TRUE       NOT NULL
 );
@@ -23,24 +23,24 @@ CREATE UNIQUE INDEX users_unique_email_idx ON users (email);
 CREATE TABLE user_roles
 (
   user_id INTEGER NOT NULL,
-  role    VARCHAR,
+  role    VARCHAR(255),
   CONSTRAINT user_roles_idx UNIQUE (user_id, role),
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
 CREATE TABLE restaurants
 (
-  id               INTEGER default global_seq.nextval primary key,
-  name             VARCHAR                 NOT NULL,
-  address          VARCHAR
+  id               INTEGER default next value for global_seq primary key,
+  name             VARCHAR(255)                 NOT NULL,
+  address          VARCHAR(255)
 );
 CREATE UNIQUE INDEX restaurants_unique_name_idx ON restaurants (name);
 
 
 CREATE TABLE dishes
 (
-  id               INTEGER default global_seq.nextval primary key,
-  name             VARCHAR                 NOT NULL,
+  id               INTEGER default next value for global_seq primary key,
+  name             VARCHAR(255)                 NOT NULL,
   price            DECIMAL                 NOT NULL
   --rest_id          INTEGER,
   --FOREIGN KEY (rest_id) REFERENCES restaurants (id) ON DELETE CASCADE
@@ -50,7 +50,7 @@ CREATE UNIQUE INDEX dishes_unique_name_idx ON dishes (name);
 
 
 CREATE TABLE daily_menu (
-  id          INTEGER default global_seq.nextval primary key,
+  id          INTEGER default next value for global_seq primary key,
   date        DATE    NOT NULL,
   rest_id     INTEGER NOT NULL,
   dish_id     INTEGER NOT NULL,
@@ -60,7 +60,7 @@ CREATE TABLE daily_menu (
 CREATE UNIQUE INDEX dailymenu_unique_date_rest_dish_idx ON daily_menu (date, rest_id, dish_id);
 
 CREATE TABLE votes (
-  id          INTEGER default global_seq.nextval primary key,
+  id          INTEGER default next value for global_seq primary key,
   user_id     INTEGER   NOT NULL,
   rest_id     INTEGER   NOT NULL,
   date        DATE      NOT NULL,
@@ -68,5 +68,5 @@ CREATE TABLE votes (
   FOREIGN KEY (user_id) REFERENCES users (id)       ON DELETE CASCADE,
   FOREIGN KEY (rest_id) REFERENCES restaurants (id) ON DELETE CASCADE
 );
-CREATE UNIQUE INDEX votes_unique_user_rest_date_idx ON votes (user_id, rest_id, date);
+CREATE UNIQUE INDEX votes_unique_user_date_idx ON votes (user_id, date);
 

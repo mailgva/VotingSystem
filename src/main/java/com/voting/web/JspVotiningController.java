@@ -98,6 +98,7 @@ public class JspVotiningController {
         }
 
         Vote vote = new Vote(
+                (request.getParameter("voteId").isEmpty() ? null : Integer.parseInt(request.getParameter("voteId"))),
                 userService.get(userId),
                 resto,
                 date,

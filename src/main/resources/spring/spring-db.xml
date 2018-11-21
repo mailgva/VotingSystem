@@ -12,7 +12,7 @@
 
     <jdbc:initialize-database data-source="dataSource" enabled="${database.init}">
         <jdbc:script location="classpath:db/${jdbc.initLocation}"/>
-        <jdbc:script encoding="utf-8" location="classpath:db/populateDB.sql"/>
+        <jdbc:script encoding="utf-8" location="classpath:db/${jdbc.populateSql}"/>
         <!--<jdbc:script encoding="utf-8" location="classpath:db/populateDBH2.sql"/>-->
     </jdbc:initialize-database>
 
@@ -22,7 +22,7 @@
         <!--no pooling-->
         <bean id="dataSource"
               class="org.springframework.jdbc.datasource.DriverManagerDataSource"
-              p:driverClassName="org.hsqldb.jdbcDriver"
+              p:driverClassName="${database.driverClassName}"
               p:url="${database.url}"
               p:username="${database.username}"
               p:password="${database.password}"/>
@@ -34,7 +34,7 @@
         <!--no pooling-->
         <bean id="dataSource"
               class="org.springframework.jdbc.datasource.DriverManagerDataSource"
-              p:driverClassName="org.h2.Driver"
+              p:driverClassName="${database.driverClassName}"
               p:url="${database.url}"
               p:username="${database.username}"
               p:password="${database.password}"/>
@@ -45,7 +45,7 @@
 
         <bean id="dataSource"
               class="org.apache.tomcat.jdbc.pool.DataSource"
-              p:driverClassName="org.postgresql.Driver"
+              p:driverClassName="${database.driverClassName}"
               p:url="${database.url}"
               p:username="${database.username}"
               p:password="${database.password}"/>
@@ -91,6 +91,7 @@
         <!-- Transaction manager for a single JPA EntityManagerFactory (alternative to JTA) -->
         <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
               p:entityManagerFactory-ref="entityManagerFactory"/>
+        <bean class="com.voting.repository.JpaUtil"/>
 
     </beans>
 

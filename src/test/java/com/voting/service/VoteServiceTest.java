@@ -4,6 +4,7 @@ import com.voting.model.Resto;
 import com.voting.model.User;
 import com.voting.model.Vote;
 import com.voting.util.exception.TooLateEcxeption;
+import org.h2.jdbc.JdbcSQLException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Calendar;
@@ -23,14 +25,8 @@ import java.util.GregorianCalendar;
 
 import static org.junit.Assert.*;
 
-@ContextConfiguration({
-        "classpath:spring/spring-app.xml",
-        "classpath:spring/spring-db.xml"
-})
-@RunWith(SpringRunner.class)
-//@Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-@ActiveProfiles({"datajpa","hsqldb"})
-public class VoteServiceTest {
+@ActiveProfiles("datajpa")
+public class VoteServiceTest extends AbstractServiceTest{
 
     @Autowired
     private VoteService service;
@@ -46,10 +42,10 @@ public class VoteServiceTest {
     public void create() throws ParseException {
         User user = userService.get(100001);
         Resto resto = restoService.get(100003);
+        LocalDate ld = LocalDate.now().plusDays(1);
 
-        Calendar calendar = new GregorianCalendar(2018,Calendar.NOVEMBER,21);
+        Calendar calendar = new GregorianCalendar(ld.getYear(), ld.getMonthValue(), ld.getDayOfMonth());
         Date date = calendar.getTime();
-
         Vote vote = new Vote(null, user, resto, date, LocalDateTime.now());
         service.create(vote, 100001);
     }
@@ -71,10 +67,7 @@ public class VoteServiceTest {
         date = calendar.getTime();
         newVote.setDate(date);
         service.update(newVote, 100001);
-
-
     }
-
 
     @Test
     public void get() {
@@ -84,7 +77,7 @@ public class VoteServiceTest {
 
     @Test
     public void delete() {
-        service.delete(100031, 100000);
+        service.delete(100030, 100001);
     }
 
     @Test
@@ -109,6 +102,24 @@ public class VoteServiceTest {
         System.out.println(vote);
     }
 
+    @Test(expected = Exception.class)
+    public void createDublicat() {
+        User user = userService.get(100001);
+        Resto resto = restoService.get(100003);
 
+        Calendar calendar = new GregorianCalendar(2018,Calendar.NOVEMBER,30);
+        Date date = calendar.getTime();
+
+        Vote vote = new Vote(null, user, resto, date, LocalDateTime.now());
+        Vote newVote = service.create(vote, 100001);
+
+        newVote.setResto(restoService.get(100004));
+        newVote.setId(null);
+
+        service.update(newVote, 100001);
+
+        newVote.setId(null);
+        service.create(newVote, 100001);
+    }
 
 }

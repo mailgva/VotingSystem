@@ -80,9 +80,9 @@ INSERT INTO VOTES (DATE, USER_ID, REST_ID, DATE_TIME) VALUES
   ('2018-11-14 00:00:00',  100000, 100002, CURRENT_TIMESTAMP),
   ('2018-11-14 00:00:00',  100001, 100005, CURRENT_TIMESTAMP);
 
---select GenerateDailyDishes(current_date, (current_date + 4));
+select GenerateDailyDishes(current_date, (current_date + 4));
 
---select GenerateDailyDishes('11.11.2018','15.11.2018');
+select GenerateDailyDishes('11.11.2018','15.11.2018');
 
 
 /*

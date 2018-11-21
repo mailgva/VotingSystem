@@ -17,6 +17,9 @@ public class DataJpaVoteRepositoryImpl implements VoteRepository {
 
     @Override
     public Vote save(Vote vote, int userId) {
+        if (!vote.isNew() && get(vote.getId(), userId) == null) {
+            return null;
+        }
         return crudVoteRepository.save(vote);
     }
 
