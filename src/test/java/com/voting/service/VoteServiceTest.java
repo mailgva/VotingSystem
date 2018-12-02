@@ -4,26 +4,18 @@ import com.voting.model.Resto;
 import com.voting.model.User;
 import com.voting.model.Vote;
 import com.voting.util.exception.TooLateEcxeption;
-import org.h2.jdbc.JdbcSQLException;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import static org.junit.Assert.*;
 
 @ActiveProfiles("datajpa")
 public class VoteServiceTest extends AbstractServiceTest{
