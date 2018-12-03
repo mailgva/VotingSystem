@@ -24,6 +24,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
@@ -68,7 +69,15 @@ public class JspVotiningController {
                 e.printStackTrace();
             }
         }
-        if(date==null) date = new Date();
+        if(date==null) {
+            date = new Date();
+            Calendar c = Calendar.getInstance();
+            if(LocalDateTime.now().getHour() >= 11) {
+                c.setTime(date);
+                c.add(Calendar.DATE, 1);
+                date = c.getTime();
+            }
+        }
 
         Vote vote = service.getByDate(date, userId);
 

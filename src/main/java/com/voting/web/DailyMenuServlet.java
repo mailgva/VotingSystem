@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
@@ -90,7 +91,15 @@ public class DailyMenuServlet extends HttpServlet {
             }
         }
 
-        if(date==null) date = new Date();
+        if(date==null) {
+            date = new Date();
+            Calendar c = Calendar.getInstance();
+            if(LocalDateTime.now().getHour() >= 11) {
+                c.setTime(date);
+                c.add(Calendar.DATE, 1);
+                date = c.getTime();
+            }
+        }
         vote = voteRestController.getByDate(date);
         request.setAttribute("voteId", (vote == null ? null : vote.getId()));
         request.setAttribute("dateMenu", sdf.format(date));
@@ -117,7 +126,15 @@ public class DailyMenuServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
-        if(date==null) date = new Date();
+        if(date==null) {
+            date = new Date();
+            Calendar c = Calendar.getInstance();
+            if(LocalDateTime.now().getHour() >= 11) {
+                c.setTime(date);
+                c.add(Calendar.DATE, 1);
+                date = c.getTime();
+            }
+        }
 
         Vote vote = voteRestController.getByDate(date);
 
