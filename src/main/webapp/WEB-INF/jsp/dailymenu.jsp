@@ -48,7 +48,7 @@
                     </dt>
                     <dd data-restSelected="${dailyMenu.selected}">
                         <table class="table table-bordered" <%--border="1" cellpadding="4" cellspacing="0"--%>>
-                            <thead>
+                            <thead class="thead-dark">
                             <tr>
                                 <th style="width:250px;"><spring:message code="menu.title"/></th>
                                 <th><spring:message code="menu.price"/></th>

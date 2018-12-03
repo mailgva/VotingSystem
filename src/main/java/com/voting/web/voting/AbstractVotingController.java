@@ -1,4 +1,4 @@
-package com.voting.web;
+package com.voting.web.voting;
 
 import com.voting.model.Resto;
 import com.voting.model.Vote;
@@ -6,33 +6,25 @@ import com.voting.service.DailyMenuService;
 import com.voting.service.RestoService;
 import com.voting.service.UserService;
 import com.voting.service.VoteService;
+import com.voting.to.DailyMenuTo;
 import com.voting.util.DailyMenuUtil;
-import com.voting.util.MealsUtil;
+import com.voting.web.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
-
-@RequestMapping(value = "/voting")
-@Controller
-public class JspVotiningController {
-
+public abstract class AbstractVotingController {
     @Autowired
     private VoteService service;
 
@@ -46,18 +38,15 @@ public class JspVotiningController {
     private UserService userService;
 
 
-    @GetMapping("")
     public String getDailyMenu(HttpServletRequest request, Model model) {
         return getDailyMenuByDate(request, model);
     }
 
-
-    @PostMapping("")
     public String getDailyMenuFiltered(HttpServletRequest request, Model model)  {
         return getDailyMenuByDate(request, model);
     }
 
-    private String getDailyMenuByDate(HttpServletRequest request, Model model) {
+    protected String getDailyMenuByDate(HttpServletRequest request, Model model) {
         int userId = SecurityUtil.authUserId();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -83,16 +72,24 @@ public class JspVotiningController {
 
         model.addAttribute("voteId", (vote == null ? null : vote.getId()));
         model.addAttribute("dateMenu", sdf.format(date));
-        model.addAttribute("dailyMenus",
-                DailyMenuUtil.convertToDailyMenuTo(dailyMenuService.getByDate(date), vote));
+        model.addAttribute("dailyMenus", getDailyMenuTo(date, vote));
+
         return "dailymenu";
     }
 
-    @PostMapping("/vote")
+    public List<DailyMenuTo> getDailyMenu(Date date) {
+        int userId = SecurityUtil.authUserId();
+        Vote vote = service.getByDate(date, userId);
+        return getDailyMenuTo(date, vote);
+    }
+
+    protected List<DailyMenuTo> getDailyMenuTo(Date date, Vote vote) {
+        return DailyMenuUtil.convertToDailyMenuTo(dailyMenuService.getByDate(date), vote);
+    }
+
     public String setVote(HttpServletRequest request, Model model) throws UnsupportedEncodingException {
         request.setCharacterEncoding("UTF-8");
-        int userId = SecurityUtil.authUserId();
-        Resto resto = restoService.get(Integer.parseInt(request.getParameter("restoId")));
+        Integer restId = request.getParameter("restoId").isEmpty() ? null : Integer.parseInt(request.getParameter("restoId"));
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -106,20 +103,30 @@ public class JspVotiningController {
             }
         }
 
+        Integer voteId = request.getParameter("voteId").isEmpty() ? null : Integer.parseInt(request.getParameter("voteId"));
+
+        setUserVote(date, restId, voteId);
+
+        model.addAttribute("dateMenu", sdf.format(date));
+        return "forward:/voting";
+    }
+
+    public void setUserVote(Date date, Integer restoId,  Integer voteId) {
+        int userId = SecurityUtil.authUserId();
+        Resto resto = restoService.get(restoId);
+
         Vote vote = new Vote(
-                (request.getParameter("voteId").isEmpty() ? null : Integer.parseInt(request.getParameter("voteId"))),
+                voteId,
                 userService.get(userId),
                 resto,
                 date,
                 LocalDateTime.now());
 
-        if (request.getParameter("voteId").isEmpty()) {
+        if (voteId == null) {
             service.create(vote, userId);
         } else {
             service.update(vote, userId);
         }
-        model.addAttribute("dateMenu", sdf.format(date));
-        return "forward:/voting";
     }
 
     private int getId(HttpServletRequest request) {

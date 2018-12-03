@@ -1,7 +1,6 @@
 package com.voting.web.dailyMenu;
 
-import com.voting.util.DailyMenuUtil;
-import com.voting.web.voting.VoteRestController;
+import com.voting.web.vote.VoteRestController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
