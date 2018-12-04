@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 
 @Repository
@@ -68,5 +69,13 @@ public class JpaUserRepositoryImpl implements UserRepository {
     @Override
     public List<User> getAll() {
         return em.createNamedQuery(User.ALL_SORTED, User.class).getResultList();
+    }
+
+    @Override
+    @Transactional
+    public boolean setActive(int id, boolean active) {
+        Query query = em.createQuery("UPDATE User u SET u.enabled = :active WHERE u.id=:id");
+        return  query.setParameter("id", id).
+                setParameter("active", active).executeUpdate() != 0;
     }
 }

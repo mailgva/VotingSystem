@@ -18,4 +18,6 @@ public interface UserRepository {
     User getByEmail(String email);
 
     List<User> getAll();
+
+    boolean setActive(int id, boolean active);
 }

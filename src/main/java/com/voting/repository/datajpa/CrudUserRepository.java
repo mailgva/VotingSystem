@@ -34,4 +34,9 @@ public interface CrudUserRepository extends JpaRepository<User, Integer> {
     List<User> findAll(Sort sort);
 
     User getByEmail(String email);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE User SET enabled=:active WHERE id=:id")
+    int setActive(@Param("id") int id, @Param("active") boolean active);
 }
