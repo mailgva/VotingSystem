@@ -1,19 +1,13 @@
 package com.voting.service;
 
 import com.voting.model.Dish;
-import com.voting.service.DishService;
 import com.voting.util.exception.NotFoundException;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ActiveProfiles("datajpa")
 public class DishServiceTest extends AbstractServiceTest{
@@ -32,9 +26,9 @@ public class DishServiceTest extends AbstractServiceTest{
         service.create(new Dish(null,"Пельмени", 50.0d));
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test //(expected = NotFoundException.class)
     public void deleteWithNotFound() {
-        service.delete(100004);
+        assertThrows(NotFoundException.class, () -> service.delete(100004));
     }
 
     @Test

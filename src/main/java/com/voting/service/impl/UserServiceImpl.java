@@ -32,6 +32,7 @@ public class UserServiceImpl implements UserService {
         return repository.save(user);
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     @Override
     public void delete(int id) throws NotFoundException {
         checkNotFoundWithId(repository.delete(id), id);

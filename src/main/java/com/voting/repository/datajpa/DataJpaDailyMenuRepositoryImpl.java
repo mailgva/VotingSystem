@@ -5,11 +5,13 @@ import com.voting.repository.DailyMenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
 
 @Repository
+@Transactional(readOnly = true)
 public class DataJpaDailyMenuRepositoryImpl implements DailyMenuRepository {
     private static final Sort SORT_DATE = new Sort(Sort.Direction.DESC, "date");
     private static final Sort SORT_NAME = new Sort(Sort.Direction.ASC,  "resto.name");
@@ -18,11 +20,13 @@ public class DataJpaDailyMenuRepositoryImpl implements DailyMenuRepository {
     private CrudDailyMenuRepository crudDailyMenuRepository;
 
     @Override
+    @Transactional
     public DailyMenu save(DailyMenu dailyMenu) {
         return crudDailyMenuRepository.save(dailyMenu);
     }
 
     @Override
+    @Transactional
     public boolean delete(int id) {
         return crudDailyMenuRepository.delete(id) != 0;
     }

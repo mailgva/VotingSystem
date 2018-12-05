@@ -1,17 +1,10 @@
 package com.voting.service;
 
-
 import com.voting.model.Resto;
-import com.voting.service.RestoService;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.junit4.SpringRunner;
 
 @ActiveProfiles("datajpa")
 public class RestoServiceTest  extends AbstractServiceTest {

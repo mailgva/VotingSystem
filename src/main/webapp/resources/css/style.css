@@ -31,18 +31,15 @@ dl{
     margin : 30px;
 }
 
-dt[data-restSelected="true"] {
+dl[data-restSelected="true"] {
     background-color: rgba(81, 226, 20, 0.58);
 }
-dd[data-restSelected="true"] {
-    background-color: rgba(81, 226, 20, 0.58);
+dl[data-restSelected="false"] {
+    background-color: white;
 }
 
-dt[data-restSelected="false"] {
-    background-color: white;
-}
-dd[data-restSelected="false"] {
-    background-color: white;
+.fa {
+    cursor: pointer;
 }
 
 /*https://getbootstrap.com/docs/4.0/examples/sticky-footer/sticky-footer.css*/

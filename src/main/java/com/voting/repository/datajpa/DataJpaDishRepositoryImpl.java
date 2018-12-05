@@ -4,20 +4,24 @@ import com.voting.model.Dish;
 import com.voting.repository.DishRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Repository
+@Transactional(readOnly = true)
 public class DataJpaDishRepositoryImpl implements DishRepository {
     @Autowired
     private CrudDishRepository crudDishRepository;
 
     @Override
+    @Transactional
     public Dish save(Dish dish) {
         return crudDishRepository.save(dish);
     }
 
     @Override
+    @Transactional
     public boolean delete(int id) {
         return crudDishRepository.delete(id) != 0;
     }

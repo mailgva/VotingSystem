@@ -1,22 +1,15 @@
 package com.voting.service;
 
 import com.voting.model.DailyMenu;
-import com.voting.model.Resto;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 
-import static org.junit.Assert.*;
+
 
 @ActiveProfiles("datajpa")
 public class DailyMenuServiceTest extends AbstractServiceTest{

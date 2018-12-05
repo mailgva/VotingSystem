@@ -4,8 +4,9 @@ import com.voting.model.Resto;
 import com.voting.model.User;
 import com.voting.model.Vote;
 import com.voting.util.exception.TooLateEcxeption;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.text.ParseException;
@@ -15,6 +16,8 @@ import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 @ActiveProfiles("datajpa")
@@ -42,23 +45,26 @@ public class VoteServiceTest extends AbstractServiceTest{
         service.create(vote, 100001);
     }
 
-    @Test(expected = TooLateEcxeption.class)
+    @Test //(expected = TooLateEcxeption.class)
     public void update() {
-        User user = userService.get(100001);
-        Resto resto = restoService.get(100003);
+        assertThrows(TooLateEcxeption.class, () -> {
 
-        Calendar calendar = new GregorianCalendar(2018,Calendar.NOVEMBER,07);
-        Date date = calendar.getTime();
+            User user = userService.get(100001);
+            Resto resto = restoService.get(100003);
 
-        Vote vote = new Vote(null, user, resto, date, LocalDateTime.now());
-        service.create(vote, 100001);
+            Calendar calendar = new GregorianCalendar(2018,Calendar.NOVEMBER,07);
+            Date date = calendar.getTime();
 
-        Vote newVote = service.get(100127, 100001);
-        newVote.setResto(restoService.get(100004));
-        calendar = new GregorianCalendar(2018,Calendar.NOVEMBER,01);
-        date = calendar.getTime();
-        newVote.setDate(date);
-        service.update(newVote, 100001);
+            Vote vote = new Vote(null, user, resto, date, LocalDateTime.now());
+            service.create(vote, 100001);
+
+            Vote newVote = service.get(100127, 100001);
+            newVote.setResto(restoService.get(100004));
+            calendar = new GregorianCalendar(2018,Calendar.NOVEMBER,01);
+            date = calendar.getTime();
+            newVote.setDate(date);
+            service.update(newVote, 100001);
+        });
     }
 
     @Test
@@ -94,24 +100,27 @@ public class VoteServiceTest extends AbstractServiceTest{
         System.out.println(vote);
     }
 
-    @Test(expected = Exception.class)
+    @Test //(expected = Exception.class)
     public void createDublicat() {
-        User user = userService.get(100001);
-        Resto resto = restoService.get(100003);
+        assertThrows(DataAccessException.class, () -> {
 
-        Calendar calendar = new GregorianCalendar(2018,Calendar.NOVEMBER,30);
-        Date date = calendar.getTime();
+            User user = userService.get(100001);
+            Resto resto = restoService.get(100003);
 
-        Vote vote = new Vote(null, user, resto, date, LocalDateTime.now());
-        Vote newVote = service.create(vote, 100001);
+            Calendar calendar = new GregorianCalendar(2018, Calendar.NOVEMBER, 30);
+            Date date = calendar.getTime();
 
-        newVote.setResto(restoService.get(100004));
-        newVote.setId(null);
+            Vote vote = new Vote(null, user, resto, date, LocalDateTime.now());
+            Vote newVote = service.create(vote, 100001);
 
-        service.update(newVote, 100001);
+            newVote.setResto(restoService.get(100004));
+            newVote.setId(null);
 
-        newVote.setId(null);
-        service.create(newVote, 100001);
+            service.update(newVote, 100001);
+
+            newVote.setId(null);
+            service.create(newVote, 100001);
+        });
     }
 
 }

@@ -1,5 +1,6 @@
 package com.voting.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -56,6 +57,7 @@ public class Vote extends AbstractBaseEntity {
     @Column(name = "date", nullable = false)
     //@Temporal(TemporalType.DATE)
     //@DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd")
     @NotNull
     private Date date;
 

@@ -37,8 +37,8 @@
                 </dl>
                 </c:if>
                 <c:set var = "restoName" value = "${dailyMenu.resto.name}"/>
-                <dl>
-                    <dt data-restSelected="${dailyMenu.selected}">
+                <dl data-restSelected="${dailyMenu.selected}">
+                    <dt >
                         <input type="radio" id="${dailyMenu.resto.id}" name="restoId" value="${dailyMenu.resto.id}"
                             <c:if test = "${dailyMenu.selected}">
                                 checked="checked"
@@ -46,7 +46,7 @@
                         >
                         <label for="restoId_${dailyMenu.resto.id}">${dailyMenu.resto.name}</label>
                     </dt>
-                    <dd data-restSelected="${dailyMenu.selected}">
+                    <dd >
                         <table class="table table-bordered" <%--border="1" cellpadding="4" cellspacing="0"--%>>
                             <thead class="thead-dark">
                             <tr>

@@ -1,16 +1,11 @@
 package com.voting.to;
 
-import com.voting.model.AbstractBaseEntity;
-import com.voting.model.DailyMenu;
 import com.voting.model.Dish;
 import com.voting.model.Resto;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.Date;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 public class DailyMenuTo{
     private Resto resto;
     private Dish dish;

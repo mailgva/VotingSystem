@@ -1,6 +1,8 @@
 package com.voting.model;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.util.CollectionUtils;
@@ -10,8 +12,10 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.*;
 
+@XmlRootElement
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @NamedQueries({
         @NamedQuery(name = User.DELETE, query = "DELETE FROM User u WHERE u.id=:id"),
@@ -41,14 +45,17 @@ public class User extends AbstractNamedEntity {
     private boolean enabled = true;
 
     @Column(name = "registered", columnDefinition = "timestamp default now()")
+    @JsonFormat(pattern="dd-MMMM-yyyy")
     @NotNull
     private Date registered = new Date();
 
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
     @ElementCollection(fetch = FetchType.EAGER)
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+//    @Fetch(FetchMode.SUBSELECT)
+    @BatchSize(size = 200)
     private Set<Role> roles;
 
 
@@ -109,7 +116,7 @@ public class User extends AbstractNamedEntity {
     }
 
     public void setRoles(Collection<Role> roles) {
-        this.roles = CollectionUtils.isEmpty(roles) ? Collections.emptySet() : EnumSet.copyOf(roles);
+        this.roles = CollectionUtils.isEmpty(roles) ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
     }
 
     @Override
