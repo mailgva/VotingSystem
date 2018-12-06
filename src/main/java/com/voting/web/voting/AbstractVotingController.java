@@ -25,6 +25,9 @@ import java.util.List;
 import java.util.Objects;
 
 public abstract class AbstractVotingController {
+    private static final SimpleDateFormat DATE_FORMAT =
+            new SimpleDateFormat("yyyy-MM-dd");
+
     @Autowired
     private VoteService service;
 
@@ -46,18 +49,27 @@ public abstract class AbstractVotingController {
         return getDailyMenuByDate(request, model);
     }
 
-    protected String getDailyMenuByDate(HttpServletRequest request, Model model) {
-        int userId = SecurityUtil.authUserId();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    private Date setParameterDate(Date date, HttpServletRequest request)  {
 
-        Date date = null;
+
         if(request.getParameter("date") != null) {
             try {
-                date = sdf.parse(request.getParameter("date"));
+                date = DATE_FORMAT.parse(request.getParameter("date"));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+
         }
+        return date;
+    }
+
+    protected String getDailyMenuByDate(HttpServletRequest request, Model model) {
+        int userId = SecurityUtil.authUserId();
+
+        Date date = null;
+
+        date = setParameterDate(date, request);
+
         if(date==null) {
             date = new Date();
             Calendar c = Calendar.getInstance();
@@ -71,7 +83,7 @@ public abstract class AbstractVotingController {
         Vote vote = service.getByDate(date, userId);
 
         model.addAttribute("voteId", (vote == null ? null : vote.getId()));
-        model.addAttribute("dateMenu", sdf.format(date));
+        model.addAttribute("dateMenu", DATE_FORMAT.format(date));
         model.addAttribute("dailyMenus", getDailyMenuTo(date, vote));
 
         return "dailymenu";
@@ -91,27 +103,18 @@ public abstract class AbstractVotingController {
         request.setCharacterEncoding("UTF-8");
         Integer restId = request.getParameter("restoId").isEmpty() ? null : Integer.parseInt(request.getParameter("restoId"));
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-
         Date date = null;
-        if(request.getParameter("date") != null) {
-            try {
-                date = sdf.parse(request.getParameter("date"));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
+        date = setParameterDate(date, request);
 
         Integer voteId = request.getParameter("voteId").isEmpty() ? null : Integer.parseInt(request.getParameter("voteId"));
 
         setUserVote(date, restId, voteId);
 
-        model.addAttribute("dateMenu", sdf.format(date));
+        model.addAttribute("dateMenu", DATE_FORMAT.format(date));
         return "forward:/voting";
     }
 
-    public void setUserVote(Date date, Integer restoId,  Integer voteId) {
+    public void setUserVote(Date date, Integer restoId,  Integer voteId)  {
         int userId = SecurityUtil.authUserId();
         Resto resto = restoService.get(restoId);
 

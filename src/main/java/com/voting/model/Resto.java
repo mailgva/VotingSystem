@@ -1,6 +1,7 @@
 package com.voting.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @NamedQueries({
         @NamedQuery(name = Resto.GET_BY_NAME, query = "SELECT r FROM Resto r WHERE UPPER(r.name) = UPPER(:name)"),
@@ -12,9 +13,11 @@ public class Resto extends AbstractNamedEntity {
     public static final String GET_BY_NAME = "Resto.getByName";
     public static final String GET_ALL = "Resto.getAll";
 
-
     @Column(name = "address")
     private String address;
+
+    @Transient
+    private List<Dish> dishes;
 
     public Resto() {
     }
@@ -40,12 +43,21 @@ public class Resto extends AbstractNamedEntity {
         this.address = address;
     }
 
+    public List<Dish> getDishes() {
+        return dishes;
+    }
+
+    public void setDishes(List<Dish> dishes) {
+        this.dishes = dishes;
+    }
+
     @Override
     public String toString() {
         return "Resto{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
+                ", dishes=\n'" + getDishes() + '\'' +
                 '}';
     }
 }

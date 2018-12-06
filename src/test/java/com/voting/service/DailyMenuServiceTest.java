@@ -1,14 +1,20 @@
 package com.voting.service;
 
 import com.voting.model.DailyMenu;
+import com.voting.model.Vote;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
+import static com.voting.UserTestData.USER;
+import static com.voting.UserTestData.USER_ID;
+import static com.voting.util.DailyMenuUtil.convertToDailyMenuTo;
 
 
 @ActiveProfiles("datajpa")
@@ -22,6 +28,9 @@ public class DailyMenuServiceTest extends AbstractServiceTest{
 
     @Autowired
     private DishService dishService;
+
+    @Autowired
+    private VoteService voteService;
 
     @Test
     public void create() throws ParseException {
@@ -49,8 +58,11 @@ public class DailyMenuServiceTest extends AbstractServiceTest{
 
     @Test
     public void getByDate() throws ParseException {
-        Date date = new SimpleDateFormat("dd-MM-yyyy").parse("01-10-2018");
-        service.getByDate(date).forEach(System.out::println);
+        Date date = new SimpleDateFormat("dd-MM-yyyy").parse("07-12-2018");
+        Vote vote = new Vote(USER, restoService.get(100003), date, LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+        convertToDailyMenuTo(service.getByDate(date), vote)
+                .forEach(System.out::println);
+
     }
 
     @Test

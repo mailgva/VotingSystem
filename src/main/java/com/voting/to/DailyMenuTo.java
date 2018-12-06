@@ -1,6 +1,5 @@
 package com.voting.to;
 
-import com.voting.model.Dish;
 import com.voting.model.Resto;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -8,12 +7,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class DailyMenuTo{
     private Resto resto;
-    private Dish dish;
     private boolean selected;
 
-    public DailyMenuTo(Resto resto, Dish dish, boolean selected) {
+    public DailyMenuTo(Resto resto, boolean selected) {
         this.resto = resto;
-        this.dish = dish;
         this.selected  = selected;
     }
 
@@ -28,13 +25,6 @@ public class DailyMenuTo{
         this.resto = resto;
     }
 
-    public Dish getDish() {
-        return dish;
-    }
-
-    public void setDish(Dish dish) {
-        this.dish = dish;
-    }
 
     public boolean isSelected() {
         return selected;
@@ -47,9 +37,8 @@ public class DailyMenuTo{
     @Override
     public String toString() {
         return "DailyMenu{" +
-                "resto=" + resto +
-                ", dish=" + dish +
-                ", selected=" + selected +
+                "selected=" + selected +
+                ", resto=" + resto +
                 '}';
     }
 }

@@ -32,10 +32,10 @@ function deleteRow(id) {
 }
 
 function updateTable() {
-    if ($("#filter").length > 0){
+    /*if ($("#filter").length > 0){
         updateFilterTable();
         return;
-    }
+    }*/
 
     $.get(ajaxUrl, function (data) {
         datatableApi.clear().rows.add(data).draw();
