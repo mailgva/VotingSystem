@@ -5,6 +5,7 @@ import com.voting.Profiles;
 import com.voting.model.AbstractBaseEntity;
 import com.voting.model.Vote;
 import com.voting.util.exception.NotFoundException;
+import com.voting.util.exception.PastDateException;
 import com.voting.util.exception.TooLateEcxeption;
 import org.springframework.util.Assert;
 
@@ -36,7 +37,7 @@ public class ValidationUtil {
         // если дата меньше сегодняшней
         limitDate = setTimeTo(limitDate, 0,0,0,0);
         if(voteDate.getTime().before(limitDate.getTime()))
-            throw new TooLateEcxeption(sdf.format(vote.getDate()) + " - it's to late to select restaurant");
+            throw new PastDateException(sdf.format(vote.getDate()) + " - Not allowed to choose a restaurant for the past date!");
         // если сегодняшняя дата
         if(voteDate.getTime().equals(limitDate.getTime())){
             limitDate = setTimeTo(limitDate, 11,0,0,0);
