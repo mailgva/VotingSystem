@@ -2,11 +2,18 @@ package com.voting.web.user;
 
 import com.voting.model.Role;
 import com.voting.model.User;
+import com.voting.to.UserTo;
+import com.voting.util.UserUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+
+import static com.voting.util.Util.createErrorStrings;
 
 @RestController
 @RequestMapping("/ajax/admin/users")
@@ -26,23 +33,16 @@ public class AdminAjaxController extends AbstractUserController {
     }
 
     @PostMapping
-    public void createOrUpdate(@RequestParam("id") Integer id,
-                               @RequestParam("name") String name,
-                               @RequestParam("email") String email,
-                               @RequestParam("password") String password) {
-
-        User user = new User(id, name, email, password, Role.ROLE_USER);
-        if (user.isNew()) {
-            super.create(user);
-        } else {
-            super.update(user, user.getId());
+    public ResponseEntity<String>  createOrUpdate(@Valid UserTo userTo, BindingResult result) {
+        if (result.hasErrors()) {
+            String errStrings = createErrorStrings(result);
+            return new ResponseEntity<>(errStrings, HttpStatus.UNPROCESSABLE_ENTITY);
         }
-    }
-
-
-    @PostMapping("/setactive")
-    public void setActive(@RequestParam("id") Integer id,
-                          @RequestParam("active")  Boolean active) {
-        super.setActive(id, active);
+        if (userTo.isNew()) {
+            super.create(UserUtil.createNewFromTo(userTo));
+        } else {
+            super.update(userTo, userTo.getId());
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -29,20 +29,6 @@
                 <th></th>
             </tr>
             </thead>
-            <c:forEach items="${users}" var="user">
-                <jsp:useBean id="user" type="com.voting.model.User"/>
-                <tr id="${user.id}">
-                    <td><c:out value="${user.name}"/></td>
-                    <td><a href="mailto:${user.email}">${user.email}</a></td>
-                    <td>${user.roles}</td>
-                    <td><input type="checkbox"
-                               <c:if test="${user.enabled}">checked</c:if> "
-                        onchange = 'setActive(this);'/></td>
-                    <td><fmt:formatDate value="${user.registered}" pattern="dd-MMMM-yyyy"/></td>
-                    <td><a class="update"><span class="fa fa-pencil"></span></a></td>
-                    <td><a class="delete"><span class="fa fa-remove"></span></a></td>
-                </tr>
-            </c:forEach>
         </table>
     </div>
 </div>
@@ -51,7 +37,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title"><spring:message code="user.add"/></h4>
+                <h4 class="modal-title" id="modalTitle"></h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -92,4 +78,7 @@
 </div>
 <jsp:include page="fragments/footer.jsp"/>
 </body>
+<jsp:include page="fragments/i18n.jsp">
+    <jsp:param name="page" value="user"/>
+</jsp:include>
 </html>

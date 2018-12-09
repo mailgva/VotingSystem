@@ -2,6 +2,7 @@ package com.voting.service;
 
 
 import com.voting.model.User;
+import com.voting.to.UserTo;
 import com.voting.util.exception.NotFoundException;
 
 import java.util.List;
@@ -17,6 +18,8 @@ public interface UserService {
     User getByEmail(String email) throws NotFoundException;
 
     void update(User user);
+
+    void update(UserTo userTo);
 
     List<User> getAll();
 
