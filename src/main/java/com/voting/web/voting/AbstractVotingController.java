@@ -82,6 +82,9 @@ public abstract class AbstractVotingController {
 
         Vote vote = service.getByDate(date, userId);
 
+        System.out.println("=============================\n" + userService.get(userId).isAdmin());
+        model.addAttribute("userName", SecurityUtil.authUserName());
+        model.addAttribute("isAdmin", userService.get(userId).isAdmin());
         model.addAttribute("voteId", (vote == null ? null : vote.getId()));
         model.addAttribute("dateMenu", DATE_FORMAT.format(date));
         model.addAttribute("dailyMenus", getDailyMenuTo(date, vote));
@@ -96,7 +99,7 @@ public abstract class AbstractVotingController {
     }
 
     protected List<DailyMenuTo> getDailyMenuTo(Date date, Vote vote) {
-        return DailyMenuUtil.convertToDailyMenuTo(dailyMenuService.getByDate(date), vote);
+        return DailyMenuUtil.convertToDailyMenuTo(date, dailyMenuService.getByDate(date), vote);
     }
 
     public String setVote(HttpServletRequest request, Model model) throws UnsupportedEncodingException {

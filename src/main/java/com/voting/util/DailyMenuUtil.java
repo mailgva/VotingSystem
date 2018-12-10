@@ -11,7 +11,7 @@ public class DailyMenuUtil {
 
     private DailyMenuUtil(){}
 
-    public static List<DailyMenuTo> convertToDailyMenuTo(List<DailyMenu> dailyMenus, Vote vote) {
+    public static List<DailyMenuTo> convertToDailyMenuTo(Date date, List<DailyMenu> dailyMenus, Vote vote) {
         Map<Resto, List<Dish>> map = dailyMenus.stream()
                 .collect(
                         Collectors.groupingBy(DailyMenu::getResto,
@@ -29,7 +29,7 @@ public class DailyMenuUtil {
                 });
 
         return restos.stream()
-                .map(resto -> new DailyMenuTo(resto, (vote == null ? false : resto.getId().compareTo(vote.getResto().getId()) == 0) ))
+                .map(resto -> new DailyMenuTo(date, resto, (vote == null ? false : resto.getId().compareTo(vote.getResto().getId()) == 0) ))
                 .collect(Collectors.toList());
     }
 

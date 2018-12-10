@@ -60,7 +60,8 @@ public class DailyMenuServiceTest extends AbstractServiceTest{
     public void getByDate() throws ParseException {
         Date date = new SimpleDateFormat("dd-MM-yyyy").parse("07-12-2018");
         Vote vote = new Vote(USER, restoService.get(100003), date, LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
-        convertToDailyMenuTo(service.getByDate(date), vote)
+        //convertToDailyMenuTo(service.getByDate(date), vote)
+        convertToDailyMenuTo(date, service.getByDate(date), vote)
                 .forEach(System.out::println);
 
     }
