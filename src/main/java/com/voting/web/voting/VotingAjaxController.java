@@ -2,13 +2,16 @@ package com.voting.web.voting;
 
 import com.voting.to.DailyMenuTo;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping(VotingAjaxController.REST_URL)
+@RequestMapping(value = VotingAjaxController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class VotingAjaxController extends AbstractVotingController {
     static final String REST_URL = "/ajax/voting";
 
@@ -19,10 +22,21 @@ public class VotingAjaxController extends AbstractVotingController {
     }
 
     @PostMapping
-    public void setUserVote(@RequestParam(value = "date") @DateTimeFormat(pattern="yyyy-MM-dd") Date date,
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public ResponseEntity<String> setVote(@RequestParam(value = "date") @DateTimeFormat(pattern="yyyy-MM-dd") Date date,
                             @RequestParam(value = "restoId") Integer restoId,
                             @RequestParam(value = "voteId") Integer voteId) {
-        super.setUserVote(date, restoId, voteId);
+
+        System.out.println("==========Date\n" + date);
+        System.out.println("==========restoId\n" + restoId);
+        System.out.println("==========voteId\n" + voteId);
+        try {
+            super.setUserVote(date, restoId, voteId);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

@@ -28,7 +28,7 @@ public class ValidationUtil {
     }
 
     public static void checkTooLate(Vote vote) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // HH:mm:ss
 
         Calendar voteDate = Calendar.getInstance();
         voteDate.setTime(vote.getDate());

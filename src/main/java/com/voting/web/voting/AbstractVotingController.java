@@ -10,6 +10,8 @@ import com.voting.to.DailyMenuTo;
 import com.voting.util.DailyMenuUtil;
 import com.voting.web.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -82,7 +84,6 @@ public abstract class AbstractVotingController {
 
         Vote vote = service.getByDate(date, userId);
 
-        System.out.println("=============================\n" + userService.get(userId).isAdmin());
         model.addAttribute("userName", SecurityUtil.authUserName());
         model.addAttribute("isAdmin", userService.get(userId).isAdmin());
         model.addAttribute("voteId", (vote == null ? null : vote.getId()));
@@ -117,7 +118,7 @@ public abstract class AbstractVotingController {
         return "forward:/voting";
     }
 
-    public void setUserVote(Date date, Integer restoId,  Integer voteId)  {
+    public void setUserVote(Date date, Integer restoId, Integer voteId)  {
         int userId = SecurityUtil.authUserId();
         Resto resto = restoService.get(restoId);
 
@@ -128,11 +129,11 @@ public abstract class AbstractVotingController {
                 date,
                 LocalDateTime.now());
 
-        if (voteId == null) {
-            service.create(vote, userId);
-        } else {
-            service.update(vote, userId);
-        }
+            if (voteId == null) {
+                service.create(vote, userId);
+            } else {
+                service.update(vote, userId);
+            }
     }
 
     private int getId(HttpServletRequest request) {

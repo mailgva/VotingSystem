@@ -29,7 +29,9 @@ public class DailyMenuUtil {
                 });
 
         return restos.stream()
-                .map(resto -> new DailyMenuTo(date, resto, (vote == null ? false : resto.getId().compareTo(vote.getResto().getId()) == 0) ))
+                .map(resto -> new DailyMenuTo(date, resto,
+                        (vote == null ? 0 : vote.getId()),
+                        (vote == null ? false : resto.getId().compareTo(vote.getResto().getId()) == 0) ))
                 .collect(Collectors.toList());
     }
 

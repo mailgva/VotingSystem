@@ -20,8 +20,8 @@ public class RootController {
         return "login";
     }
 
-    /*@GetMapping("/voting")
+    @GetMapping("/voting")
     public String voting() {
-        return "voting";
-    }*/
+        return "dailymenu";
+    }
 }

@@ -18,23 +18,15 @@ th {
     height: 15px;
 }
 
-/*
-tr[data-restSelected="true"] {
-    background-color: green;
-}
 
-tr[data-restSelected="false"] {
-    background-color: white;
-}
-*/
 dl{
     margin : 30px;
 }
 
-dl[data-restSelected="true"] {
+dl[data-restselected="true"] {
     background-color: rgba(81, 226, 20, 0.58);
 }
-dl[data-restSelected="false"] {
+dl[data-restselected="false"] {
     background-color: white;
 }
 

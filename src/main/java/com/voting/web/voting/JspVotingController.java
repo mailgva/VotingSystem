@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 
 
-@RequestMapping(value = "/voting")
-@Controller
+//@RequestMapping(value = "/voting")
+//@Controller
 public class JspVotingController extends AbstractVotingController{
 
     @GetMapping

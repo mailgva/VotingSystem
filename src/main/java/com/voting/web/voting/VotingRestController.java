@@ -3,6 +3,7 @@ package com.voting.web.voting;
 import com.voting.to.DailyMenuTo;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -15,7 +16,7 @@ public class VotingRestController extends AbstractVotingController {
 
     @Override
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public List<DailyMenuTo> getDailyMenu(@RequestParam(value = "date") @DateTimeFormat(pattern="yyyy-MM-dd") Date date) {
+    public List<DailyMenuTo> getDailyMenu(@RequestParam(value = "date")  Date date) {
         return super.getDailyMenu(date);
     }
 
@@ -23,6 +24,7 @@ public class VotingRestController extends AbstractVotingController {
     public void setUserVote(@RequestParam(value = "date") @DateTimeFormat(pattern="yyyy-MM-dd") Date date,
                             @RequestParam(value = "restoId") Integer restoId,
                             @RequestParam(value = "voteId") Integer voteId) {
+
         super.setUserVote(date, restoId, voteId);
     }
 
