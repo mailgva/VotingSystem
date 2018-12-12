@@ -12,14 +12,18 @@
 <div class="jumbotron pt-4">
     <div class="container">
         <h3><spring:message code="menu.voting"/></h3>
-        <form <%--method="post" action="voting"--%> id="filter">
-            <dl>
-                <dt><spring:message code="common.date"/>:</dt>
-                <dd><input type="date" name="date" value="${(param.date != null ? param.date : null)}"></dd>
-                <button type="button" class="btn btn-success" onclick="updateFace()"><spring:message code="common.select"/></button>
-            </dl>
-        </form>
-        <hr/>
+        <div class="card border-dark">
+            <div class="card-body pb-0">
+                <form <%--method="post" action="voting"--%> id="filter">
+                    <dl>
+                        <dt><spring:message code="common.date"/>:</dt>
+                        <dd><input type="date" name="date" value="${(param.date != null ? param.date : null)}"
+                                   onchange="updateFace();"></dd>
+                    </dl>
+                </form>
+            </div>
+        </div>
+        </br>
         <form method="post" action="voting/vote" id="voteForm">
         </form>
     </div>

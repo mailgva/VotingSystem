@@ -2,6 +2,7 @@ package com.voting.web;
 
 
 import com.voting.AuthorizedUser;
+import com.voting.model.Role;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -34,6 +35,12 @@ public class SecurityUtil {
     public static String authUserName() {
         return get().getUserTo().getName();
     }
+
+    public static boolean isAdmin() {
+        return get().getAuthorities().contains(Role.ROLE_ADMIN);
+    }
+
+
 
 
 }

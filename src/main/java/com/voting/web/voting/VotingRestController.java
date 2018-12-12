@@ -22,10 +22,8 @@ public class VotingRestController extends AbstractVotingController {
 
     @PostMapping
     public void setUserVote(@RequestParam(value = "date") @DateTimeFormat(pattern="yyyy-MM-dd") Date date,
-                            @RequestParam(value = "restoId") Integer restoId,
-                            @RequestParam(value = "voteId") Integer voteId) {
-
-        super.setUserVote(date, restoId, voteId);
+                            @RequestParam(value = "restoId") Integer restoId) {
+        super.setUserVote(date, restoId);
     }
 
 }

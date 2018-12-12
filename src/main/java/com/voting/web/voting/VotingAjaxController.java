@@ -24,17 +24,12 @@ public class VotingAjaxController extends AbstractVotingController {
     @PostMapping
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public ResponseEntity<String> setVote(@RequestParam(value = "date") @DateTimeFormat(pattern="yyyy-MM-dd") Date date,
-                            @RequestParam(value = "restoId") Integer restoId,
-                            @RequestParam(value = "voteId") Integer voteId) {
-
-        System.out.println("==========Date\n" + date);
-        System.out.println("==========restoId\n" + restoId);
-        System.out.println("==========voteId\n" + voteId);
+                            @RequestParam(value = "restoId") Integer restoId) {
         try {
-            super.setUserVote(date, restoId, voteId);
+            super.setUserVote(date, restoId);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }

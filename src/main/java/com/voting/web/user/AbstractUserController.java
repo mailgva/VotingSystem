@@ -60,4 +60,5 @@ public abstract class AbstractUserController {
         log.info("setActive id={} active={}", id, active);
         service.setActive(id, active);
     }
+
 }

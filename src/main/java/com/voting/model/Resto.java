@@ -16,7 +16,7 @@ public class Resto extends AbstractNamedEntity {
     @Column(name = "address")
     private String address;
 
-    @Transient
+    @OneToMany
     private List<Dish> dishes;
 
     public Resto() {

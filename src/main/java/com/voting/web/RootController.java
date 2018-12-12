@@ -1,6 +1,7 @@
 package com.voting.web;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
@@ -11,7 +12,8 @@ public class RootController {
     }
 
     @GetMapping("/users")
-    public String users() {
+    public String users(Model model) {
+        model = setModelAttrs(model);
         return "users";
     }
 
@@ -21,7 +23,14 @@ public class RootController {
     }
 
     @GetMapping("/voting")
-    public String voting() {
+    public String voting(Model model) {
+        model = setModelAttrs(model);
         return "dailymenu";
+    }
+
+    private Model setModelAttrs(Model m) {
+        m.addAttribute("isAdmin", SecurityUtil.isAdmin());
+        m.addAttribute("userName", SecurityUtil.authUserName());
+        return m;
     }
 }

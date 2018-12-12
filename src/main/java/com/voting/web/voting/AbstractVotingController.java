@@ -1,6 +1,7 @@
 package com.voting.web.voting;
 
 import com.voting.model.Resto;
+import com.voting.model.User;
 import com.voting.model.Vote;
 import com.voting.service.DailyMenuService;
 import com.voting.service.RestoService;
@@ -10,17 +11,14 @@ import com.voting.to.DailyMenuTo;
 import com.voting.util.DailyMenuUtil;
 import com.voting.web.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -31,7 +29,7 @@ public abstract class AbstractVotingController {
             new SimpleDateFormat("yyyy-MM-dd");
 
     @Autowired
-    private VoteService service;
+    private VoteService voteService;
 
     @Autowired
     private DailyMenuService dailyMenuService;
@@ -82,7 +80,7 @@ public abstract class AbstractVotingController {
             }
         }
 
-        Vote vote = service.getByDate(date, userId);
+        Vote vote = voteService.getByDate(date, userId);
 
         model.addAttribute("userName", SecurityUtil.authUserName());
         model.addAttribute("isAdmin", userService.get(userId).isAdmin());
@@ -95,7 +93,7 @@ public abstract class AbstractVotingController {
 
     public List<DailyMenuTo> getDailyMenu(Date date) {
         int userId = SecurityUtil.authUserId();
-        Vote vote = service.getByDate(date, userId);
+        Vote vote = voteService.getByDate(date, userId);
         return getDailyMenuTo(date, vote);
     }
 
@@ -112,28 +110,31 @@ public abstract class AbstractVotingController {
 
         Integer voteId = request.getParameter("voteId").isEmpty() ? null : Integer.parseInt(request.getParameter("voteId"));
 
-        setUserVote(date, restId, voteId);
+        setUserVote(date, restId);
 
         model.addAttribute("dateMenu", DATE_FORMAT.format(date));
         return "forward:/voting";
     }
 
-    public void setUserVote(Date date, Integer restoId, Integer voteId)  {
+    public void setUserVote(Date date, Integer restoId/*, Integer voteId*/)  {
         int userId = SecurityUtil.authUserId();
+
+        Vote vote   = voteService.getByDate(date, userId);
         Resto resto = restoService.get(restoId);
+        User user   = userService.get(userId);
 
-        Vote vote = new Vote(
-                voteId,
-                userService.get(userId),
-                resto,
-                date,
-                LocalDateTime.now());
+        if(vote == null) {
+            vote = new Vote(null, user, resto, date, LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+        } else {
+            vote.setDateTime(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+            vote.setResto(resto);
+        }
 
-            if (voteId == null) {
-                service.create(vote, userId);
-            } else {
-                service.update(vote, userId);
-            }
+        if (vote.getId() == null) {
+            voteService.create(vote, userId);
+        } else {
+            voteService.update(vote, userId);
+        }
     }
 
     private int getId(HttpServletRequest request) {
