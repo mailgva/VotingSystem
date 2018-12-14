@@ -110,17 +110,17 @@ public abstract class AbstractVotingController {
 
         Integer voteId = request.getParameter("voteId").isEmpty() ? null : Integer.parseInt(request.getParameter("voteId"));
 
-        setUserVote(date, restId);
+        //setUserVote(date, restId);
 
         model.addAttribute("dateMenu", DATE_FORMAT.format(date));
         return "forward:/voting";
     }
 
-    public void setUserVote(Date date, Integer restoId/*, Integer voteId*/)  {
+    public void setUserVote(Date date, Resto resto /*Integer restoId*/)  {
         int userId = SecurityUtil.authUserId();
 
         Vote vote   = voteService.getByDate(date, userId);
-        Resto resto = restoService.get(restoId);
+        //Resto resto = restoService.get(restoId);
         User user   = userService.get(userId);
 
         if(vote == null) {

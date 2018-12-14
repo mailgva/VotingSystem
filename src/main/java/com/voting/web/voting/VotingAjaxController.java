@@ -1,5 +1,6 @@
 package com.voting.web.voting;
 
+import com.voting.model.Resto;
 import com.voting.to.DailyMenuTo;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -24,9 +25,9 @@ public class VotingAjaxController extends AbstractVotingController {
     @PostMapping
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public ResponseEntity<String> setVote(@RequestParam(value = "date") @DateTimeFormat(pattern="yyyy-MM-dd") Date date,
-                            @RequestParam(value = "restoId") Integer restoId) {
+                                          @RequestParam(value = "restoId") Resto resto /*Integer restoId*/) {
         try {
-            super.setUserVote(date, restoId);
+            super.setUserVote(date, resto /*restoId*/);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
