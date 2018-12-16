@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/rest/resto")
-public class RestoRestController extends AbstractRestoController {
+@RequestMapping("/ajax/resto")
+public class RestoAjaxController extends AbstractRestoController {
     @Override
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Resto> getAll() {
@@ -24,3 +24,4 @@ public class RestoRestController extends AbstractRestoController {
     }
 
 }
+

@@ -14,15 +14,15 @@ import java.util.Date;
 import static com.voting.util.ValidationUtil.assureIdConsistent;
 
 @Controller
-public class VoteRestController {
-    private static final Logger log = LoggerFactory.getLogger(VoteRestController.class);
+public class AbstractVoteController {
+    private static final Logger log = LoggerFactory.getLogger(AbstractVoteController.class);
 
     private final VoteService service;
 
     private final UserService userService;
 
     @Autowired
-    public VoteRestController(VoteService service, UserService userService) {
+    public AbstractVoteController(VoteService service, UserService userService) {
         this.service = service;
         this.userService = userService;
     }

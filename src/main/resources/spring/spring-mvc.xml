@@ -41,6 +41,10 @@
         </property>
     </bean>
 
+    <bean class="org.springframework.data.repository.support.DomainClassConverter">
+        <constructor-arg ref="conversionService"/>
+    </bean>
+
     <context:component-scan base-package="com.voting.**.web"/>
 
     <!--  all resources inside folder src/main/webapp/resources are mapped so they can be referred to inside JSP files -->

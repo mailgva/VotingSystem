@@ -1,7 +1,7 @@
 package com.voting.web.dailyMenu;
 
 import com.voting.web.AbstractControllerTest;
-import com.voting.web.vote.VoteRestController;
+import com.voting.web.vote.AbstractVoteController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
@@ -15,7 +15,7 @@ public class DailyMenuRestControllerTest extends AbstractControllerTest {
     private DailyMenuRestController controller;
 
     @Autowired
-    private VoteRestController voteRestController;
+    private AbstractVoteController voteRestController;
 
     @Test
     public void get() throws ParseException {
