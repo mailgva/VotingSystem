@@ -20,4 +20,8 @@ public interface DailyMenuRepository {
     List<DailyMenu> getByNameResto(String nameResto);
 
     List<DailyMenu> getAll();
+
+    void deleteByDate(Date date);
+
+    void generateDailyMenu(Date date);
 }

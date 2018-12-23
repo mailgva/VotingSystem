@@ -14,8 +14,8 @@ import static com.voting.util.ValidationUtil.assureIdConsistent;
 import static com.voting.util.ValidationUtil.checkNew;
 
 @Controller
-public class DailyMenuRestController {
-    private static final Logger log = LoggerFactory.getLogger(DailyMenuRestController.class);
+public abstract class AbstractDailyMenuController {
+    private static final Logger log = LoggerFactory.getLogger(AbstractDailyMenuController.class);
 
     @Autowired
     private DailyMenuService service;
@@ -51,6 +51,10 @@ public class DailyMenuRestController {
     public List<DailyMenu> getByDate(Date date) {
         log.info("get DailyMenu for date {} ", date);
         return service.getByDate(date);
+    }
+
+    public void generateDailyMenu(Date date) {
+        service.generateDailyMenu(date);
     }
 
 }

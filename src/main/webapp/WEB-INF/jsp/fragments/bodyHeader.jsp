@@ -16,7 +16,7 @@
                         <a class="dropdown-item" href="users"><spring:message code="user.title"/></a>
                         <a class="dropdown-item" href="dishes"><spring:message code="common.dishes"/></a>
                         <a class="dropdown-item" href="restaurants"><spring:message code="common.restaurants"/></a>
-                        <a class="dropdown-item" href="dailymenu"><spring:message code="common.dailyMenu"/></a>
+                        <a class="dropdown-item" href=""><spring:message code="common.dailyMenu"/></a>
                         <a class="dropdown-item" href="votes"><spring:message code="common.votes"/></a>
                     </div>
                 </div>

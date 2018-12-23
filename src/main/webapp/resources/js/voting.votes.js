@@ -67,7 +67,7 @@ function drawTablePanels(data,form,inp_date) {
         if (item_r.selected === "true") input.attr("checked", "true");
 
         let label = $('<label/>')
-            .attr("for", "restoId_" + restoId)
+            .attr("for", restoId)
             .text(item_r.resto.name);
 
         dt.append(input);
@@ -77,8 +77,8 @@ function drawTablePanels(data,form,inp_date) {
         let table = $('<table/>').addClass("table table-bordered");
         let thead = $('<thead/>').addClass("thead-dark");
         let tr = $('<tr/>');
-        let thn = $('<th/>').attr("style", "width:250px;").text(i18n["menu.name"]);
-        let thp = $('<th/>').text(i18n["menu.price"]);
+        let thn = $('<th/>').attr("style", "width:250px;").text(i18n["dish.name"]);
+        let thp = $('<th/>').text(i18n["dish.price"]);
 
         tr.append(thn);
         tr.append(thp);
@@ -143,5 +143,18 @@ function setVote(radioBox) {
         successNoty("common.saved");
     }).fail(function (jqXHR, textStatus, errorThrown) {
         $(radioBox).prop('checked', false);
+    });
+}
+
+function generateDailyMenu() {
+    let fDate    = $('#filter :input[name="date"]').val();
+    //debugger;
+    $.ajax({
+        type: "POST",
+        url: "ajax/dailymenu/",
+        data: { date: fDate}
+    }).done(function () {
+        updateFace();
+        successNoty("common.saved");
     });
 }

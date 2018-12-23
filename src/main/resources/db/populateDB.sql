@@ -19,7 +19,8 @@ INSERT INTO restaurants (name) VALUES
   ('Ресторан 1'), -- 100002
   ('Ресторан 2'), -- 100003
   ('Ресторан 3'), -- 100004
-  ('Ресторан 4'); -- 100005
+  ('Ресторан 4'), -- 100005
+  ('Ресторан 5'); -- 100005
 
 
 INSERT INTO dishes (name, price) VALUES
@@ -69,7 +70,7 @@ INSERT INTO VOTES (DATE, USER_ID, REST_ID, DATE_TIME) VALUES
 
 select GenerateDailyDishes((current_date-1), (current_date + 4));
 
-select GenerateDailyDishes('11.11.2018','15.11.2018');
+--select GenerateDailyDishes('11.11.2018','15.11.2018');
 
 
 /*

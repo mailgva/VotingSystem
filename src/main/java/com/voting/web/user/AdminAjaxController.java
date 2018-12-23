@@ -1,6 +1,6 @@
 package com.voting.web.user;
 
-import com.voting.model.Role;
+
 import com.voting.model.User;
 import com.voting.to.UserTo;
 import com.voting.util.UserUtil;

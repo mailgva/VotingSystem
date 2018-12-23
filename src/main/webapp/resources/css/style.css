@@ -18,6 +18,9 @@ th {
     height: 15px;
 }
 
+tbody tr td {
+    white-space: nowrap;
+}
 
 dl{
     margin : 30px;

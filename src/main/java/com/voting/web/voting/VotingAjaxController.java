@@ -35,4 +35,6 @@ public class VotingAjaxController extends AbstractVotingController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
+
 }

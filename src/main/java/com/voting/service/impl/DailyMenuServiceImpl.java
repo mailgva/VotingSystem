@@ -6,6 +6,7 @@ import com.voting.service.DailyMenuService;
 import com.voting.util.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.Date;
@@ -58,5 +59,13 @@ public class DailyMenuServiceImpl implements DailyMenuService {
     @Override
     public List<DailyMenu> getAll() {
         return repository.getAll();
+    }
+
+
+
+    @Override
+    public void generateDailyMenu(Date date) {
+        repository.deleteByDate(date);
+        repository.generateDailyMenu(date);
     }
 }

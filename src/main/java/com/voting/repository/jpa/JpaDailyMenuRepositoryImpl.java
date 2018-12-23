@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
 import java.util.Date;
 import java.util.List;
@@ -63,5 +64,22 @@ public class JpaDailyMenuRepositoryImpl implements DailyMenuRepository {
     @Override
     public List<DailyMenu> getAll() {
         return em.createNamedQuery(DailyMenu.GET_ALL, DailyMenu.class).getResultList();
+    }
+
+    @Override
+    @Transactional
+    public void deleteByDate(Date date) {
+        em.createQuery("DELETE FROM daily_menu dm WHERE dm.date = :date")
+                .setParameter("date", date)
+                .executeUpdate();
+    }
+
+    @Override
+    public void generateDailyMenu(Date date) {
+        em.createStoredProcedureQuery("GenerateDailyDishes")
+                .registerStoredProcedureParameter(1, Date.class, ParameterMode.IN)
+                .registerStoredProcedureParameter(2, Date.class, ParameterMode.IN)
+                .setParameter(1, date)
+                .setParameter(2, date);
     }
 }

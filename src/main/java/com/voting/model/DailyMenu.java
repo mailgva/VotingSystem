@@ -10,6 +10,7 @@ import java.util.Date;
 
 @NamedQueries({
         @NamedQuery(name = DailyMenu.DELETE, query = "DELETE FROM DailyMenu dm WHERE dm.id=:id"),
+        @NamedQuery(name = DailyMenu.DELETE_BY_DATE, query = "DELETE FROM DailyMenu dm WHERE dm.date=:date"),
         @NamedQuery(name = DailyMenu.GET,
                 query = "SELECT dm FROM DailyMenu dm " +
                         "JOIN FETCH dm.resto " +
@@ -31,14 +32,32 @@ import java.util.Date;
                         "JOIN FETCH dm.dish " +
                         "WHERE UPPER(dm.resto.name) LIKE CONCAT('%',:name,'%') ORDER BY dm.date DESC, dm.resto.name ")
 })
+@NamedStoredProcedureQueries({
+        @NamedStoredProcedureQuery(
+                name = DailyMenu.GENERATE_DAILY_MENU,
+                procedureName = "generatedailymenu",
+                parameters = {
+                        @StoredProcedureParameter(
+                                name = "fromdate",
+                                type = String.class,
+                                mode = ParameterMode.IN),
+                        @StoredProcedureParameter(
+                                name = "todate",
+                                type = String.class,
+                                mode = ParameterMode.IN)}
+        )
+})
 @Entity
 @Table(name = "daily_menu", uniqueConstraints = {@UniqueConstraint(columnNames = { "date", "rest_id", "dish_id"}, name = "dailymenu_unique_date_rest_dish_idx")})
 public class DailyMenu extends AbstractBaseEntity{
     public static final String DELETE =             "DailyMenu.delete";
+    public static final String DELETE_BY_DATE =     "DailyMenu.deleteByDate";
     public static final String GET =                "DailyMenu.get";
     public static final String GET_ALL =            "DailyMenu.getAll";
     public static final String GET_BY_DATE =        "DailyMenu.getByDate";
     public static final String GET_BY_NAME_RESTO =  "DailyMenu.getByNameResto";
+    public static final String GENERATE_DAILY_MENU =  "DailyMenu.generateDailyMenu";
+
 
 
     @Column(name = "date")

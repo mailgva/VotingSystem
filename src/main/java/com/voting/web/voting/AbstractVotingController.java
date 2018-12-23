@@ -141,4 +141,6 @@ public abstract class AbstractVotingController {
         String paramId = Objects.requireNonNull(request.getParameter("id"));
         return Integer.parseInt(paramId);
     }
+
+
 }

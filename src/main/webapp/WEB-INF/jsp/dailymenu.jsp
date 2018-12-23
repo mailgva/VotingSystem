@@ -18,7 +18,9 @@
                     <dl>
                         <dt><spring:message code="common.date"/>:</dt>
                         <dd><input type="date" name="date" value="${(param.date != null ? param.date : null)}"
-                                   onchange="updateFace();"></dd>
+                                   onchange="updateFace();">
+                            <button type="button" onclick="generateDailyMenu()"><spring:message code="common.generateDailyMenu"/></button>
+                        </dd>
                     </dl>
                 </form>
             </div>
@@ -31,6 +33,6 @@
 <jsp:include page="fragments/footer.jsp"/>
 </body>
 <jsp:include page="fragments/i18n.jsp">
-    <jsp:param name="page" value="dailyMenu"/>
+    <jsp:param name="page" value="common"/>
 </jsp:include>
 </html>

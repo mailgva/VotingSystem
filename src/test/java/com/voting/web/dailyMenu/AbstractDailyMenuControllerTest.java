@@ -9,10 +9,10 @@ import org.springframework.test.context.ActiveProfiles;
 import java.text.ParseException;
 
 @ActiveProfiles({"datajpa","postgres"})
-public class DailyMenuRestControllerTest extends AbstractControllerTest {
+public class AbstractDailyMenuControllerTest extends AbstractControllerTest {
 
     @Autowired
-    private DailyMenuRestController controller;
+    private AbstractDailyMenuController controller;
 
     @Autowired
     private AbstractVoteController voteRestController;

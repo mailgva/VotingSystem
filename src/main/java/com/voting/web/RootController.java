@@ -28,6 +28,19 @@ public class RootController {
         return "dailymenu";
     }
 
+    @GetMapping("/dishes")
+    public String dishes(Model model) {
+        model = setModelAttrs(model);
+        return "dishes";
+    }
+
+    @GetMapping("/restaurants")
+    public String restaurants(Model model) {
+        model = setModelAttrs(model);
+        return "restaurants";
+    }
+
+
     private Model setModelAttrs(Model m) {
         m.addAttribute("isAdmin", SecurityUtil.isAdmin());
         m.addAttribute("userName", SecurityUtil.authUserName());

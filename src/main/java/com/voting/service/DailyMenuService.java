@@ -20,4 +20,6 @@ public interface DailyMenuService {
     List<DailyMenu> getByNameResto(String nameResto);
 
     List<DailyMenu> getAll();
+
+    void generateDailyMenu(Date date);
 }
