@@ -74,15 +74,16 @@ CREATE UNIQUE INDEX votes_unique_user_date_idx ON votes (user_id, date);
 /*
 
 --*************---
-create function generatedailydishes(IN fromdate date, IN todate date)
-returns void
-language plpgsql
-as $$
+DROP FUNCTION generatedailydishes(date,date);
+CREATE OR REPLACE FUNCTION "public"."generatedailydishes"("fromdate" date, "todate" date)
+  RETURNS "pg_catalog"."int4" AS $BODY$
 DECLARE
   CURDATE DATE;
   CURREST INTEGER;
 
   RESTS INTEGER ARRAY;
+
+  DAYS INTEGER;
 
   DISH INTEGER;
   DISHES INTEGER ARRAY;
@@ -90,28 +91,40 @@ DECLARE
 BEGIN
   RESTS := ARRAY(SELECT ID FROM RESTAURANTS);
 
-  FOR D IN 0..(TODATE-FROMDATE) LOOP
+  IF ((ARRAY_LENGTH(RESTS,1) IS NULL) OR (ARRAY_LENGTH(RESTS,1) = 0)) THEN
+    raise notice 'Restaurants not found!';
+    RETURN 0;
+  END IF;
+
+  DAYS := (TODATE-FROMDATE);
+
+  FOR D IN 0..DAYS LOOP
+
     CURDATE := FROMDATE + D;
     FOR R IN 1..(ARRAY_LENGTH(RESTS, 1)) LOOP
       CURREST := RESTS[R];
       FOR I IN 0..4 LOOP
         DISHES := ARRAY(
-		  SELECT DISHES.ID FROM DISHES
-		  WHERE NOT DISHES.ID IN
-			(SELECT DISH_ID
-			 FROM DAILY_MENU WHERE DAILY_MENU.DATE = CURDATE AND REST_ID = CURREST)
-			);
+            SELECT DISHES.ID FROM DISHES
+            WHERE NOT DISHES.ID IN
+                      (SELECT DISH_ID
+                       FROM DAILY_MENU WHERE DAILY_MENU.DATE = CURDATE AND REST_ID = CURREST)
+          );
 
         DISH := DISHES[FLOOR(RANDOM() * ARRAY_LENGTH(DISHES, 1)+1)];
 
         INSERT INTO DAILY_MENU(ID, DATE, REST_ID, DISH_ID)
-          VALUES(NEXTVAL('GLOBAL_SEQ'), CURDATE, CURREST, DISH);
+        VALUES(NEXTVAL('GLOBAL_SEQ'), CURDATE, CURREST, DISH);
       END LOOP;
-    END LOOP;
-  END LOOP;
 
+    END LOOP;
+
+  END LOOP;
+  return 1;
 END;
-$$;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
 
 
 --***********
