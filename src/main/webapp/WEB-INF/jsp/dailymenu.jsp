@@ -19,7 +19,10 @@
                         <dt><spring:message code="common.date"/>:</dt>
                         <dd><input type="date" name="date" value="${(param.date != null ? param.date : null)}"
                                    onchange="updateFace();">
-                            <button type="button" onclick="generateDailyMenu()"><spring:message code="common.generateDailyMenu"/></button>
+                            <c:if test = "${isAdmin}">
+                                <button type="button" onclick="generateDailyMenu()"><spring:message code="common.generateDailyMenu"/></button>
+                            </c:if>
+
                         </dd>
                     </dl>
                 </form>

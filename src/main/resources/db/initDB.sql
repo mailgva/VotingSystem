@@ -71,4 +71,64 @@ CREATE TABLE votes (
 CREATE UNIQUE INDEX votes_unique_user_date_idx ON votes (user_id, date);
 
 
+/*
 
+--*************---
+create function generatedailydishes(IN fromdate date, IN todate date)
+returns void
+language plpgsql
+as $$
+DECLARE
+  CURDATE DATE;
+  CURREST INTEGER;
+
+  RESTS INTEGER ARRAY;
+
+  DISH INTEGER;
+  DISHES INTEGER ARRAY;
+
+BEGIN
+  RESTS := ARRAY(SELECT ID FROM RESTAURANTS);
+
+  FOR D IN 0..(TODATE-FROMDATE) LOOP
+    CURDATE := FROMDATE + D;
+    FOR R IN 1..(ARRAY_LENGTH(RESTS, 1)) LOOP
+      CURREST := RESTS[R];
+      FOR I IN 0..4 LOOP
+        DISHES := ARRAY(
+		  SELECT DISHES.ID FROM DISHES
+		  WHERE NOT DISHES.ID IN
+			(SELECT DISH_ID
+			 FROM DAILY_MENU WHERE DAILY_MENU.DATE = CURDATE AND REST_ID = CURREST)
+			);
+
+        DISH := DISHES[FLOOR(RANDOM() * ARRAY_LENGTH(DISHES, 1)+1)];
+
+        INSERT INTO DAILY_MENU(ID, DATE, REST_ID, DISH_ID)
+          VALUES(NEXTVAL('GLOBAL_SEQ'), CURDATE, CURREST, DISH);
+      END LOOP;
+    END LOOP;
+  END LOOP;
+
+END;
+$$;
+
+
+--***********
+
+create function generatedailymenu(fromdatestr character varying, todatestr character varying) returns integer
+language plpgsql
+as
+$$
+DECLARE
+  fromdate date;
+  todate date;
+BEGIN
+  fromdate := to_date(fromdatestr,'DD-MM-YYYY');
+  todate := to_date(todatestr,'DD-MM-YYYY');
+  PERFORM generatedailydishes(fromdate, todate);
+
+  RETURN 1;
+END;
+$$;
+*/

@@ -70,6 +70,8 @@ INSERT INTO VOTES (DATE, USER_ID, REST_ID, DATE_TIME) VALUES
 
 select GenerateDailyDishes((current_date-1), (current_date + 4));
 
+--select GenerateDailyDishes(to_date('01-01-2019','DD-MM-YYYY'), to_date('01-01-2019','DD-MM-YYYY'));
+
 --select GenerateDailyDishes('11.11.2018','15.11.2018');
 
 

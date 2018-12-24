@@ -155,6 +155,6 @@ function generateDailyMenu() {
         data: { date: fDate}
     }).done(function () {
         updateFace();
-        successNoty("common.saved");
+        successNoty("common.menuWasGenerated");
     });
 }

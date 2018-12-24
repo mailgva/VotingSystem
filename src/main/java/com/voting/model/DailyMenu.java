@@ -44,9 +44,25 @@ import java.util.Date;
                         @StoredProcedureParameter(
                                 name = "todate",
                                 type = String.class,
-                                mode = ParameterMode.IN)}
+                                mode = ParameterMode.IN),
+                        }
+        ),
+        @NamedStoredProcedureQuery(
+                name = DailyMenu.GENERATE_DAILY_DISHES,
+                procedureName = "generatedailydishes",
+                parameters = {
+                        @StoredProcedureParameter(
+                                name = "fromdate",
+                                type = Date.class,
+                                mode = ParameterMode.IN),
+                        @StoredProcedureParameter(
+                                name = "todate",
+                                type = Date.class,
+                                mode = ParameterMode.IN)
+                }
         )
 })
+
 @Entity
 @Table(name = "daily_menu", uniqueConstraints = {@UniqueConstraint(columnNames = { "date", "rest_id", "dish_id"}, name = "dailymenu_unique_date_rest_dish_idx")})
 public class DailyMenu extends AbstractBaseEntity{
@@ -57,6 +73,7 @@ public class DailyMenu extends AbstractBaseEntity{
     public static final String GET_BY_DATE =        "DailyMenu.getByDate";
     public static final String GET_BY_NAME_RESTO =  "DailyMenu.getByNameResto";
     public static final String GENERATE_DAILY_MENU =  "DailyMenu.generateDailyMenu";
+    public static final String GENERATE_DAILY_DISHES =  "DailyMenu.generateDailyDishes";
 
 
 

@@ -39,16 +39,13 @@ public interface CrudDailyMenuRepository extends JpaRepository<DailyMenu, Intege
     //@Procedure("GenerateDailyDishes(:date, :date)")
 
 
-    /*@Transactional
-    @Procedure(procedureName = "GenerateDailyDishes")
-    void generateDailyMenu(@Param("fromdate") Date fromdate, @Param("todate") Date todate);*/
-
     @Transactional
+    @Procedure(name = DailyMenu.GENERATE_DAILY_DISHES)
+    void generateDailyMenu(@Param("fromdate") Date fromdate, @Param("todate") Date todate);
+
+    /*@Transactional
     @Procedure(name = DailyMenu.GENERATE_DAILY_MENU)
-    //@Query(nativeQuery = true, value = "SELECT generatedailymenu(:fromdate, :todate)")
-    void generateDailyMenu(@Param("fromdate") String fromdate, @Param("todate") String todate);
-
-
+    void generateDailyMenu(@Param("fromdate") String fromdate, @Param("todate") String todate);*/
 
 
     @Transactional

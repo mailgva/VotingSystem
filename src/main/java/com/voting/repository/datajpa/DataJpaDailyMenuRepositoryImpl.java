@@ -8,11 +8,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.ParameterMode;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -71,40 +69,32 @@ public class DataJpaDailyMenuRepositoryImpl implements DailyMenuRepository {
 
     }
 
-    @PersistenceContext
-    private EntityManager em;
-
     @Override
     @Transactional
     public void generateDailyMenu(Date date) {
         System.out.println("==================BEFORE GENERATE");
         try {
+            crudDailyMenuRepository.generateDailyMenu(date, date);
+            /*
             SimpleDateFormat sdf =  new SimpleDateFormat("dd-MM-yyyy");
-            crudDailyMenuRepository.generateDailyMenu(sdf.format(date), sdf.format(date));
+            crudDailyMenuRepository.generateDailyMenu(sdf.format(date), sdf.format(date));*/
 
         } catch (Exception e) {
             System.out.println("==============ERROR GENERATE=============");
             System.out.println(e.getLocalizedMessage());
             System.out.println("==============ERROR END=============");
         }
-       /* try {
+        /*try {
             System.out.println("==================BEFORE GENERATE");
             SimpleDateFormat sdf =  new SimpleDateFormat("dd-MM-yyyy");
-            *//*Query query = em.createQuery("SELECT generatedailymenu('" + sdf.format(date) + "', '" + sdf.format(date) + "')");
-            query.executeUpdate();*//*
 
-            em.createStoredProcedureQuery(DailyMenu.GENERATE_DAILY_MENU)
-                    .s
+            em.createStoredProcedureQuery("generatedailymenu")
+                    .registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(2, String.class, ParameterMode.IN)
                     .setParameter(1, sdf.format(date))
                     .setParameter(2, sdf.format(date))
-                    .executeUpdate();
+                    .execute();
 
-           *//* em.createStoredProcedureQuery("generatedailymenu")
-                    .registerStoredProcedureParameter(1, Date.class, ParameterMode.IN)
-                    .registerStoredProcedureParameter(2, Date.class, ParameterMode.IN)
-                    .setParameter(1, date)
-                    .setParameter(2, date)
-                    .execute();*//*
         } catch (Exception e) {
             System.out.println("==============ERROR=============");
             System.out.println(e.getLocalizedMessage());
