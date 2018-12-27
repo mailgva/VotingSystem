@@ -1,11 +1,16 @@
 package com.voting.web.user;
 
+import com.voting.Profiles;
+import com.voting.model.AbstractBaseEntity;
 import com.voting.model.User;
 import com.voting.service.UserService;
 import com.voting.to.UserTo;
+import com.voting.util.exception.ModificationRestrictionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+
 import java.util.List;
 
 import static com.voting.util.ValidationUtil.assureIdConsistent;
@@ -17,6 +22,13 @@ public abstract class AbstractUserController {
 
     @Autowired
     private UserService service;
+
+    private boolean modificationRestriction;
+
+    @Autowired
+    public void setEnvironment(Environment environment) {
+        modificationRestriction = environment.acceptsProfiles(Profiles.HEROKU);
+    }
 
     public List<User> getAll() {
         log.info("getAll");
@@ -59,6 +71,18 @@ public abstract class AbstractUserController {
     public void setActive(int id, boolean active) {
         log.info("setActive id={} active={}", id, active);
         service.setActive(id, active);
+    }
+
+    public void enable(int id, boolean enabled) {
+        log.info(enabled ? "enable {}" : "disable {}", id);
+        checkModificationAllowed(id);
+        service.enable(id, enabled);
+    }
+
+    private void checkModificationAllowed(int id) {
+        if (modificationRestriction && id < AbstractBaseEntity.START_SEQ + 2) {
+            throw new ModificationRestrictionException();
+        }
     }
 
 }

@@ -24,4 +24,6 @@ public interface UserService {
     List<User> getAll();
 
     void setActive(int id, boolean active);
+
+    void enable(int id, boolean enable);
 }
