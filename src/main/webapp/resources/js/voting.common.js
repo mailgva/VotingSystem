@@ -94,7 +94,7 @@ function warnNoty(key) {
     failedNote = new Noty({
         text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;" + i18n[key],
         type: "information",
-        layout: "center",
+        layout: "bottomRight",
         timeout: 3000
     }).show();
 }
