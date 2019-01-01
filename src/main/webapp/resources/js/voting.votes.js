@@ -9,9 +9,10 @@ $(function () {
     });
 
     let inp_date = $('#filter :input[name="date"]');
-    d = new Date();
+
+    /*d = new Date();
     sd = d.getFullYear() + '-' + (d.getMonth()+1) + '-' + (d.getDate() + (d.getHours() < 11 ? 0 : 1));
-    inp_date.val(sd);
+    inp_date.val(sd);*/
     updateFace();
 });
 
@@ -27,13 +28,17 @@ function updateFace() {
          dataType: 'json',
          data: {date: inp_date},
          success: function(data){
-             drawTablePanels(data,form,inp_date);
+             if(jQuery.isEmptyObject(data)) {
+                 warnNoty("common.noPresentMenuDay");
+             } else {
+                drawTablePanels(data,form,inp_date);
+             }
          }
      });
 }
 
 function drawTablePanels(data,form,inp_date) {
-
+    closeNoty();
     let input_date = $("<input/>")
         .attr("type", "hidden")
         .attr("name", "date");
@@ -140,7 +145,7 @@ function setVote(radioBox) {
         $(radioBox).prop('checked', true);
         $(radioBox).closest("dl").attr("data-restSelected", true);
 
-        successNoty("common.saved");
+        successNoty("common.selectSave");
     }).fail(function (jqXHR, textStatus, errorThrown) {
         $(radioBox).prop('checked', false);
     });

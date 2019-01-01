@@ -48,8 +48,6 @@ function updateTableByData(data) {
 }
 
 function save() {
-    /*console.log(form.serialize());
-    debugger;*/
     $.ajax({
         type: "POST",
         url: context.ajaxUrl,
@@ -88,6 +86,16 @@ function failNoty(jqXHR) {
         text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;" + errorInfo.typeMessage + "<br>" + errorInfo.details.join("<br>"),
         type: "error",
         layout: "bottomRight"
+    }).show();
+}
+
+function warnNoty(key) {
+    closeNoty();
+    failedNote = new Noty({
+        text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;" + i18n[key],
+        type: "information",
+        layout: "center",
+        timeout: 3000
     }).show();
 }
 

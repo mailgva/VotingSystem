@@ -17,7 +17,7 @@
                 <form <%--method="post" action="voting"--%> id="filter">
                     <dl>
                         <dt><spring:message code="common.date"/>:</dt>
-                        <dd><input type="date" name="date" value="${(param.date != null ? param.date : null)}"
+                        <dd><input type="date" name="date" value="${(param.date != null ? param.date : date)}"
                                    onchange="updateFace();">
                             <c:if test = "${isAdmin}">
                                 <button type="button" onclick="generateDailyMenu()"><spring:message code="common.generateDailyMenu"/></button>

@@ -16,6 +16,10 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import javax.validation.Valid;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
+
 import static com.voting.web.ExceptionInfoHandler.EXCEPTION_DUPLICATE_EMAIL;
 
 @Controller
@@ -38,6 +42,7 @@ public class RootController extends AbstractUserController {
 
     @GetMapping("/voting")
     public String voting(Model model) {
+        model.addAttribute("date", LocalDate.now().plusDays((LocalDateTime.now().getHour() < 11 ? 0 : 1)).toString());
         model = setModelAttrs(model);
         return "dailymenu";
     }
