@@ -29,7 +29,7 @@ public class DataJpaRestoRepositoryImpl implements RestoRepository {
 
     @Override
     public Resto get(int id) {
-        return crudRestoRepository.get(id);
+        return crudRestoRepository.findById(id);
     }
 
     @Override

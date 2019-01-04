@@ -16,6 +16,7 @@ public interface DishRepository {
     // null if not found
     List<Dish> getByName(String name);
 
-
     List<Dish> getAll();
+
+    Dish getByNameAndPrice(String name, double price);
 }

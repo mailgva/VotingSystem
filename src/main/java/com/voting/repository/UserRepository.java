@@ -19,5 +19,5 @@ public interface UserRepository {
 
     List<User> getAll();
 
-    boolean setActive(int id, boolean active);
+    //boolean setActive(int id, boolean active);
 }

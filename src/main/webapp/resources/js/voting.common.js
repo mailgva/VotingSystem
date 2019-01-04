@@ -92,7 +92,7 @@ function failNoty(jqXHR) {
 function warnNoty(key) {
     closeNoty();
     failedNote = new Noty({
-        text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;" + i18n[key],
+        text: "<span class='fa fa-lg fa-info-circle'></span> &nbsp;" + i18n[key],
         type: "information",
         layout: "bottomRight",
         timeout: 3000

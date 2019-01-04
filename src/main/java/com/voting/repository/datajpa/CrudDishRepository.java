@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.NamedQuery;
 import java.util.List;
 
 @Transactional(readOnly = true)
@@ -21,15 +22,13 @@ public interface CrudDishRepository extends JpaRepository<Dish, Integer> {
     @Query("DELETE FROM Dish d WHERE d.id=:id")
     int delete(@Param("id") int id);
 
-    // null if not found
-    @Override
-    Dish getOne(Integer integer);
+    Dish findById(int id);
 
     // null if not found
-    List<Dish> getByName(String name);
+    List<Dish> getByName(@Param("partName") String partName);
 
 
     List<Dish> findAll();
 
-    List<Dish> findByNameAndPrice(String name, double price);
+    Dish findByNameAndPrice(String name, double price);
 }

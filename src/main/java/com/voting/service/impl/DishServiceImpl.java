@@ -50,4 +50,9 @@ public class DishServiceImpl implements DishService {
     public List<Dish> getAll() {
         return repository.getAll();
     }
+
+    @Override
+    public Dish getByNameAndPrice(String name, double price) {
+        return repository.getByNameAndPrice(name, price);
+    }
 }

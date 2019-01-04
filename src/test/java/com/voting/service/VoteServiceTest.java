@@ -3,6 +3,7 @@ package com.voting.service;
 import com.voting.model.Resto;
 import com.voting.model.User;
 import com.voting.model.Vote;
+import com.voting.util.exception.PastDateException;
 import com.voting.util.exception.TooLateEcxeption;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
@@ -47,7 +49,7 @@ public class VoteServiceTest extends AbstractServiceTest{
 
     @Test //(expected = TooLateEcxeption.class)
     public void update() {
-        assertThrows(TooLateEcxeption.class, () -> {
+        assertThrows(PastDateException.class, () -> {
 
             User user = userService.get(100001);
             Resto resto = restoService.get(100003);
@@ -75,7 +77,7 @@ public class VoteServiceTest extends AbstractServiceTest{
 
     @Test
     public void delete() {
-        service.delete(100030, 100001);
+        service.delete(100060, 100001);
     }
 
     @Test
@@ -88,7 +90,7 @@ public class VoteServiceTest extends AbstractServiceTest{
 
     @Test
     public void getAll() {
-        service.getAll(100001).stream().forEach(System.out::println);
+        assertEquals(service.getAll(100001).size(), 8);
     }
 
 
@@ -102,7 +104,7 @@ public class VoteServiceTest extends AbstractServiceTest{
 
     @Test //(expected = Exception.class)
     public void createDublicat() {
-        assertThrows(DataAccessException.class, () -> {
+        assertThrows(PastDateException.class, () -> {
 
             User user = userService.get(100001);
             Resto resto = restoService.get(100003);

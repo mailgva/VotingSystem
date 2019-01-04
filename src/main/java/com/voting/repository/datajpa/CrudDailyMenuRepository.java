@@ -1,6 +1,7 @@
 package com.voting.repository.datajpa;
 
 import com.voting.model.DailyMenu;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -15,7 +16,6 @@ import java.util.List;
 
 @Transactional(readOnly = true)
 public interface CrudDailyMenuRepository extends JpaRepository<DailyMenu, Integer> {
-
     @Transactional
     DailyMenu save(DailyMenu dailyMenu);
 
@@ -28,8 +28,7 @@ public interface CrudDailyMenuRepository extends JpaRepository<DailyMenu, Intege
     @Query("SELECT dm FROM DailyMenu dm JOIN FETCH dm.resto JOIN FETCH dm.dish WHERE dm.date=:date ORDER BY dm.resto.name, dm.dish.name")
     List<DailyMenu> getByDate(@Param("date") Date date);
 
-    @Override
-    DailyMenu getOne(Integer integer);
+    DailyMenu findById(int id);
 
     //List<DailyMenu> findAllByNameResto(String nameResto);
 
@@ -37,6 +36,13 @@ public interface CrudDailyMenuRepository extends JpaRepository<DailyMenu, Intege
     //List<DailyMenu> getAllOrderByDateDescAndOrderByNameRestoAsc();
 
     //@Procedure("GenerateDailyDishes(:date, :date)")
+
+    /*@Query("SELECT dm FROM DailyMenu dm JOIN FETCH dm.resto JOIN FETCH dm.dish ORDER BY dm.resto.name, dm.dish.name")
+    List<DailyMenu> getAll();*/
+
+    @Override
+    List<DailyMenu> findAll();
+
 
 
     @Transactional

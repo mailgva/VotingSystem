@@ -2,6 +2,7 @@ package com.voting.model;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @NamedQueries({
         @NamedQuery(name = Resto.GET_BY_NAME, query = "SELECT r FROM Resto r WHERE UPPER(r.name) = UPPER(:name)"),
@@ -16,7 +17,8 @@ public class Resto extends AbstractNamedEntity {
     @Column(name = "address")
     private String address;
 
-    @OneToMany
+    @OneToMany(fetch=FetchType.LAZY)
+    @Transient
     private List<Dish> dishes;
 
     public Resto() {
@@ -59,5 +61,20 @@ public class Resto extends AbstractNamedEntity {
                 ", address='" + address + '\'' +
                 ", dishes=\n'" + getDishes() + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Resto resto = (Resto) o;
+        return Objects.equals(address, resto.address) &&
+                Objects.equals(dishes, resto.dishes);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), address, dishes);
     }
 }

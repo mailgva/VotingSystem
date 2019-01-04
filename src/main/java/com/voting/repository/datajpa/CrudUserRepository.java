@@ -16,7 +16,6 @@ import java.util.Optional;
 public interface CrudUserRepository extends JpaRepository<User, Integer> {
     @Transactional
     @Modifying
-//    @Query(name = User.DELETE)
     @Query("DELETE FROM User u WHERE u.id=:id")
     int delete(@Param("id") int id);
 
@@ -27,16 +26,8 @@ public interface CrudUserRepository extends JpaRepository<User, Integer> {
     @Override
     Optional<User> findById(Integer id);
 
-    @Query("SELECT u FROM User u WHERE u.id=:id")
-    User get(@Param("id") int id);
-
     @Override
     List<User> findAll(Sort sort);
 
     User getByEmail(String email);
-
-    @Transactional
-    @Modifying
-    @Query("UPDATE User SET enabled=:active WHERE id=:id")
-    int setActive(@Param("id") int id, @Param("active") boolean active);
 }

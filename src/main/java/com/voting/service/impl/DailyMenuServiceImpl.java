@@ -61,8 +61,6 @@ public class DailyMenuServiceImpl implements DailyMenuService {
         return repository.getAll();
     }
 
-
-
     @Override
     public void generateDailyMenu(Date date) {
         repository.deleteByDate(date);

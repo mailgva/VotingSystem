@@ -28,12 +28,12 @@ public class DataJpaDishRepositoryImpl implements DishRepository {
 
     @Override
     public Dish get(int id) {
-        return crudDishRepository.getOne(id);
+        return crudDishRepository.findById(id);
     }
 
     @Override
     public List<Dish> getByName(String name) {
-        return crudDishRepository.getByName(name);
+        return crudDishRepository.getByName(name.toUpperCase());
     }
 
     @Override
@@ -41,7 +41,8 @@ public class DataJpaDishRepositoryImpl implements DishRepository {
         return crudDishRepository.findAll();
     }
 
-    public List<Dish> findByNameAndPrice(String name, double price) {
+    public Dish getByNameAndPrice(String name, double price) {
         return crudDishRepository.findByNameAndPrice(name, price);
     }
+
 }

@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @NamedQueries({
         @NamedQuery(name = Dish.DELETE, query = "DELETE FROM Dish d WHERE d.id=:id"),
         @NamedQuery(name = Dish.ALL_SORTED, query = "SELECT d FROM Dish d ORDER BY d.name, d.price"),
-        @NamedQuery(name = Dish.GET_BY_NAME, query = "SELECT d FROM Dish d WHERE UPPER(d.name) LIKE CONCAT('%',?1,'%') ORDER BY d.name "),
+        @NamedQuery(name = Dish.GET_BY_NAME, query = "SELECT d FROM Dish d WHERE UPPER(d.name) LIKE CONCAT('%',:partName,'%') ORDER BY d.name "),
 })
 @Entity
 @Table(name = "dishes", uniqueConstraints = {@UniqueConstraint(columnNames = "name", name = "dishes_unique_name_idx")})
@@ -24,6 +24,18 @@ public class Dish extends AbstractNamedEntity {
     @NotNull
     @Range(min = 10, max = 2500)
     private double price;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @Transient
+    private Resto resto;
+
+    public Resto getResto() {
+        return resto;
+    }
+
+    public void setResto(Resto resto) {
+        this.resto = resto;
+    }
 
     public Dish(Integer id, String name, double price) {
         super(id, name);

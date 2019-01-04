@@ -43,12 +43,17 @@ public class JpaDishRepositoryImpl implements DishRepository {
     @Override
     public List<Dish> getByName(String name) {
         return em.createNamedQuery(Dish.GET_BY_NAME, Dish.class)
-                .setParameter(1, name.toUpperCase())
+                .setParameter("partName", name.toUpperCase())
                 .getResultList();
     }
 
     @Override
     public List<Dish> getAll() {
         return em.createNamedQuery(Dish.ALL_SORTED, Dish.class).getResultList();
+    }
+
+    @Override
+    public Dish getByNameAndPrice(String name, double price) {
+        return null;
     }
 }

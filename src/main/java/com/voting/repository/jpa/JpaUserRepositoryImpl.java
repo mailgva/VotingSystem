@@ -73,11 +73,4 @@ public class JpaUserRepositoryImpl implements UserRepository {
         return em.createNamedQuery(User.ALL_SORTED, User.class).getResultList();
     }
 
-    @Override
-    @Transactional
-    public boolean setActive(int id, boolean active) {
-        Query query = em.createQuery("UPDATE User u SET u.enabled = :active WHERE u.id=:id");
-        return  query.setParameter("id", id).
-                setParameter("active", active).executeUpdate() != 0;
-    }
 }

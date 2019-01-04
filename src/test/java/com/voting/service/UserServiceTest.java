@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 import static com.voting.UserTestData.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("datajpa")
 public class UserServiceTest extends AbstractServiceTest {
@@ -42,7 +42,7 @@ public class UserServiceTest extends AbstractServiceTest {
     @Test
     void duplicateMailCreate() throws Exception {
         assertThrows(DataAccessException.class, () ->
-                service.create(new User(null, "Duplicate", "user@yandex.ru", "newPass", Role.ROLE_USER)));
+                service.create(new User(null, "Duplicate", "user@yandex.ru", "newPass",  Role.ROLE_USER)));
     }
 
     @Test
@@ -88,5 +88,13 @@ public class UserServiceTest extends AbstractServiceTest {
     void getAll() throws Exception {
         List<User> all = service.getAll();
         assertMatch(all, ADMIN, USER);
+    }
+
+    @Test
+    void enable() {
+        service.enable(USER_ID, false);
+        assertFalse(service.get(USER_ID).isEnabled());
+        service.enable(USER_ID, true);
+        assertTrue(service.get(USER_ID).isEnabled());
     }
 }

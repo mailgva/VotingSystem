@@ -5,6 +5,7 @@ import com.voting.model.Vote;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,8 +14,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 import static com.voting.UserTestData.USER;
-import static com.voting.UserTestData.USER_ID;
 import static com.voting.util.DailyMenuUtil.convertToDailyMenuTo;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @ActiveProfiles("datajpa")
@@ -29,8 +31,6 @@ public class DailyMenuServiceTest extends AbstractServiceTest{
     @Autowired
     private DishService dishService;
 
-    @Autowired
-    private VoteService voteService;
 
     @Test
     public void create() throws ParseException {
@@ -39,21 +39,24 @@ public class DailyMenuServiceTest extends AbstractServiceTest{
     }
 
     @Test
+    @Transactional
     public void update() {
-        DailyMenu dailyMenu = service.get(100027);
+        DailyMenu dailyMenu = service.get(100040);
         dailyMenu.setResto(restoService.get(100005));
         dailyMenu.setDish(dishService.get(100012));
         service.update(dailyMenu);
+        assertThat(service.get(100040)).isEqualToComparingFieldByField(dailyMenu);
+
     }
 
     @Test
     public void delete() {
-        service.delete(100028);
+        service.delete(100088);
     }
 
     @Test
     public void get() {
-        service.delete(100029);
+        service.delete(100050);
     }
 
     @Test
@@ -66,13 +69,13 @@ public class DailyMenuServiceTest extends AbstractServiceTest{
 
     }
 
-    @Test
+    /*@Test
     public void getByNameResto() {
         service.getByNameResto("Ресторан 3").forEach(System.out::println);
-    }
+    }*/
 
     @Test
     public void getAll() {
-        service.getAll().forEach(System.out::println);
+        assertEquals(service.getAll().size(), (6 * 3) + (restoService.getAll().size() * 5 *6)) ;
     }
 }

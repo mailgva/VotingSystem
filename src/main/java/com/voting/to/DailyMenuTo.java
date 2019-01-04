@@ -8,7 +8,7 @@ import java.util.Date;
 
 @XmlRootElement
 public class DailyMenuTo{
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd"/*, timezone="EET"*/)
     private Date date;
 
     private int voteId;

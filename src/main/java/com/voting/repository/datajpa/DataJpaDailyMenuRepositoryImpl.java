@@ -52,21 +52,13 @@ public class DataJpaDailyMenuRepositoryImpl implements DailyMenuRepository {
 
     @Override
     public List<DailyMenu> getAll() {
-        return null; // crudDailyMenuRepository.getAllOrderByDateDescAndOrderByNameRestoAsc();
+        return crudDailyMenuRepository.findAll(); // crudDailyMenuRepository.getAllOrderByDateDescAndOrderByNameRestoAsc();
     }
 
     @Override
     @Transactional
     public void deleteByDate(Date date) {
-        System.out.println("==================BEFORE DELETE");
-        try {
-            crudDailyMenuRepository.deleteByDate(date);
-        } catch (Exception e) {
-            System.out.println("==============ERROR DELETE=============");
-            System.out.println(e.getLocalizedMessage());
-            System.out.println("==============ERROR END=============");
-        }
-
+       crudDailyMenuRepository.deleteByDate(date);
     }
 
     @Override

@@ -99,8 +99,4 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return new AuthorizedUser(user);
     }
 
-    @Override
-    public void setActive(int id, boolean active) {
-
-    }
 }

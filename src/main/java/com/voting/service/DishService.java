@@ -17,4 +17,6 @@ public interface DishService {
     void update(Dish dish);
 
     List<Dish> getAll();
+
+    Dish getByNameAndPrice(String name, double price);
 }
