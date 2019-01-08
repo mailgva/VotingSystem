@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS votes;
+DROP TABLE IF EXISTS daily_menu_detail;
 DROP TABLE IF EXISTS daily_menu;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS dishes;
@@ -53,20 +54,29 @@ CREATE TABLE daily_menu (
   id          INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
   date        DATE    NOT NULL,
   rest_id     INTEGER NOT NULL,
-  dish_id     INTEGER NOT NULL,
-  FOREIGN KEY (dish_id) REFERENCES dishes (id)      ON DELETE CASCADE,
   FOREIGN KEY (rest_id) REFERENCES restaurants (id) ON DELETE CASCADE
 );
-CREATE UNIQUE INDEX dailymenu_unique_date_rest_dish_idx ON daily_menu (date, rest_id, dish_id);
+CREATE UNIQUE INDEX dailymenu_unique_date_rest_idx ON daily_menu (date, rest_id);
+
+CREATE TABLE daily_menu_detail (
+  id              INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+  daily_menu_id   INTEGER NOT NULL,
+  dish_id         INTEGER NOT NULL,
+  FOREIGN KEY (daily_menu_id) REFERENCES daily_menu (id) ON DELETE CASCADE
+);
+CREATE UNIQUE INDEX dailymenudetail_unique_dailymenu_dish_idx ON daily_menu_detail (daily_menu_id, dish_id);
+
 
 CREATE TABLE votes (
-  id          INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-  user_id     INTEGER   NOT NULL,
-  rest_id     INTEGER   NOT NULL,
-  date        DATE      NOT NULL,
-  date_time   TIMESTAMP NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES users (id)       ON DELETE CASCADE,
+  id            INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+  user_id       INTEGER   NOT NULL,
+  --daily_menu_id INTEGER   NOT NULL,
+  rest_id       INTEGER NOT NULL,
+  date          DATE      NOT NULL,
+  date_time     TIMESTAMP NOT NULL,
+  FOREIGN KEY (user_id)       REFERENCES users (id)      ON DELETE CASCADE,
   FOREIGN KEY (rest_id) REFERENCES restaurants (id) ON DELETE CASCADE
+  --FOREIGN KEY (daily_menu_id) REFERENCES daily_menu (id) ON DELETE CASCADE
 );
 CREATE UNIQUE INDEX votes_unique_user_date_idx ON votes (user_id, date);
 

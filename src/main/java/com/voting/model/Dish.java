@@ -25,7 +25,6 @@ public class Dish extends AbstractNamedEntity {
     @Range(min = 10, max = 2500)
     private double price;
 
-    @ManyToOne(fetch=FetchType.LAZY)
     @Transient
     private Resto resto;
 

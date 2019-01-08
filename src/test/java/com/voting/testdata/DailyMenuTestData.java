@@ -1,4 +1,4 @@
-package com.voting;
+package com.voting.testdata;
 
 import com.voting.model.DailyMenu;
 import static org.assertj.core.api.Assertions.assertThat;

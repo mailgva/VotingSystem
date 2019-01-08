@@ -1,5 +1,7 @@
 package com.voting.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -17,7 +19,6 @@ public class Resto extends AbstractNamedEntity {
     @Column(name = "address")
     private String address;
 
-    @OneToMany(fetch=FetchType.LAZY)
     @Transient
     private List<Dish> dishes;
 
@@ -45,6 +46,7 @@ public class Resto extends AbstractNamedEntity {
         this.address = address;
     }
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public List<Dish> getDishes() {
         return dishes;
     }

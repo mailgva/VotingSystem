@@ -1,7 +1,10 @@
 package com.voting.service;
 
+import com.voting.TestUtil;
+import com.voting.testdata.RestoTestData;
 import com.voting.model.DailyMenu;
-import com.voting.model.Vote;
+import com.voting.model.DailyMenuDish;
+import com.voting.model.Resto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
@@ -9,18 +12,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.Set;
 
-import static com.voting.UserTestData.USER;
-import static com.voting.util.DailyMenuUtil.convertToDailyMenuTo;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @ActiveProfiles("datajpa")
 public class DailyMenuServiceTest extends AbstractServiceTest{
+
+    private final SimpleDateFormat SDF = new SimpleDateFormat("dd-MM-yyyy");
 
     @Autowired
     private DailyMenuService service;
@@ -33,9 +35,35 @@ public class DailyMenuServiceTest extends AbstractServiceTest{
 
 
     @Test
+    @Transactional
+    public void getByDate() throws ParseException {
+        Date date = SDF.parse("21-11-2018");
+        Set<DailyMenu> dm = service.getByDate(date);
+        assertEquals(dm.size(), 3);
+    }
+
+    @Test
     public void create() throws ParseException {
-        Date date = new SimpleDateFormat("dd-MM-yyyy").parse("01-10-2018");
-        service.create(new DailyMenu(date, restoService.get(100003), dishService.get(100014)));
+        DailyMenu dm = new DailyMenu();
+
+        Date date = SDF.parse("21-11-2018");
+        dm.setDate(date);
+
+        Resto resto = restoService.get(100005);
+        dm.setResto(resto);
+
+        DailyMenuDish dmd = new DailyMenuDish();
+        dmd.setDish(dishService.get(100035));
+        dm.addDailyMenuDish(dmd);
+
+        dmd = new DailyMenuDish();
+        dmd.setDish(dishService.get(100036));
+        dm.addDailyMenuDish(dmd);
+
+        service.create(dm);
+
+        Set<DailyMenu> dmSet = service.getByDate(date);
+        assertEquals(dmSet.size(), 4);
     }
 
     @Test
@@ -43,39 +71,28 @@ public class DailyMenuServiceTest extends AbstractServiceTest{
     public void update() {
         DailyMenu dailyMenu = service.get(100040);
         dailyMenu.setResto(restoService.get(100005));
-        dailyMenu.setDish(dishService.get(100012));
+        DailyMenuDish dmd = new DailyMenuDish();
+        dmd.setDish(dishService.get(100012));
+        dailyMenu.addDailyMenuDish(dmd);
         service.update(dailyMenu);
-        assertThat(service.get(100040)).isEqualToComparingFieldByField(dailyMenu);
-
+        DailyMenu dmUpdated = service.get(100040);
+        assertEquals(dailyMenu.getDmDishes().size(), dmUpdated.getDmDishes().size());
+        //assertThat(dmUpdated).isEqualToComparingFieldByField(dailyMenu);
     }
 
     @Test
-    public void delete() {
-        service.delete(100088);
+    public void delete() throws ParseException {
+        service.delete(100039);
+        Date date = SDF.parse("21-11-2018");
+        Set<DailyMenu> dmSet = service.getByDate(date);
+        assertEquals(dmSet.size(), 2);
     }
 
     @Test
+    @Transactional
     public void get() {
-        service.delete(100050);
+        DailyMenu dailyMenu = service.get(100038);
+        assertEquals(dailyMenu.getResto(), TestUtil.getById(RestoTestData.restos, 100003));
     }
 
-    @Test
-    public void getByDate() throws ParseException {
-        Date date = new SimpleDateFormat("dd-MM-yyyy").parse("07-12-2018");
-        Vote vote = new Vote(USER, restoService.get(100003), date, LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
-        //convertToDailyMenuTo(service.getByDate(date), vote)
-        convertToDailyMenuTo(date, service.getByDate(date), vote)
-                .forEach(System.out::println);
-
-    }
-
-    /*@Test
-    public void getByNameResto() {
-        service.getByNameResto("Ресторан 3").forEach(System.out::println);
-    }*/
-
-    @Test
-    public void getAll() {
-        assertEquals(service.getAll().size(), (6 * 3) + (restoService.getAll().size() * 5 *6)) ;
-    }
 }

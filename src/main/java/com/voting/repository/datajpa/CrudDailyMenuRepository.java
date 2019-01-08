@@ -25,7 +25,7 @@ public interface CrudDailyMenuRepository extends JpaRepository<DailyMenu, Intege
     int delete(@Param("id") int id);
 
 
-    @Query("SELECT dm FROM DailyMenu dm JOIN FETCH dm.resto JOIN FETCH dm.dish WHERE dm.date=:date ORDER BY dm.resto.name, dm.dish.name")
+    @Query("SELECT dm FROM DailyMenu dm JOIN FETCH dm.resto LEFT JOIN FETCH dm.dmDishes WHERE dm.date=:date ORDER BY dm.resto.name")
     List<DailyMenu> getByDate(@Param("date") Date date);
 
     DailyMenu findById(int id);
@@ -46,11 +46,11 @@ public interface CrudDailyMenuRepository extends JpaRepository<DailyMenu, Intege
 
 
     @Transactional
-    @Procedure(name = DailyMenu.GENERATE_DAILY_DISHES)
+    @Procedure(name = DailyMenu.GENERATE_DAILY_MENU)
     void generateDailyMenu(@Param("fromdate") Date fromdate, @Param("todate") Date todate);
 
     /*@Transactional
-    @Procedure(name = DailyMenu.GENERATE_DAILY_MENU)
+    @Procedure(name = DailyMenu.GENERATE_STR_DAILY_MENU)
     void generateDailyMenu(@Param("fromdate") String fromdate, @Param("todate") String todate);*/
 
 

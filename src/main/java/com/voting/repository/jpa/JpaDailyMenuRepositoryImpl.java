@@ -76,10 +76,11 @@ public class JpaDailyMenuRepositoryImpl implements DailyMenuRepository {
 
     @Override
     public void generateDailyMenu(Date date) {
-        em.createStoredProcedureQuery("GenerateDailyDishes")
+        em.createStoredProcedureQuery("Generate_DailyMenu")
                 .registerStoredProcedureParameter(1, Date.class, ParameterMode.IN)
                 .registerStoredProcedureParameter(2, Date.class, ParameterMode.IN)
                 .setParameter(1, date)
-                .setParameter(2, date);
+                .setParameter(2, date)
+                .execute();
     }
 }

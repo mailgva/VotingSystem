@@ -23,7 +23,9 @@ public class JacksonObjectMapper extends ObjectMapper {
     private static final ObjectMapper MAPPER = new JacksonObjectMapper();
 
     private JacksonObjectMapper() {
-        registerModule(new Hibernate5Module());
+        Hibernate5Module jacksonHibernateModule = new Hibernate5Module();
+        jacksonHibernateModule.disable(Hibernate5Module.Feature.USE_TRANSIENT_ANNOTATION);
+        registerModule(jacksonHibernateModule);
 
         registerModule(new JavaTimeModule());
         configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);

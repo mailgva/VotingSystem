@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import static com.voting.UserTestData.*;
+import static com.voting.testdata.UserTestData.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("datajpa")

@@ -1,6 +1,5 @@
 package com.voting.web;
 
-
 import com.voting.AuthorizedUser;
 import com.voting.model.Role;
 import org.springframework.security.core.Authentication;

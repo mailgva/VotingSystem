@@ -1,4 +1,4 @@
-package com.voting;
+package com.voting.testdata;
 
 import com.voting.model.Dish;
 
@@ -43,6 +43,9 @@ public class DishTestData {
     );
 
    /* public static void main(String[] args) {
-        dishes.forEach(System.out::println);
+        System.out.println(TestUtil.getById(dishes, 100017));
+        System.out.println(TestUtil.getByName(dishes, "Салат Греческий"));
+
     }*/
+
 }

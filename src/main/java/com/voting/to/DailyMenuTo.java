@@ -1,6 +1,7 @@
 package com.voting.to;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.voting.model.Resto;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -8,10 +9,11 @@ import java.util.Date;
 
 @XmlRootElement
 public class DailyMenuTo{
-    @JsonFormat(pattern="yyyy-MM-dd"/*, timezone="EET"*/)
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date date;
 
     private int voteId;
+
     private Resto resto;
     private boolean selected;
 

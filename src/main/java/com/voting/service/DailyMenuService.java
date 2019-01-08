@@ -5,6 +5,7 @@ import com.voting.util.exception.NotFoundException;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public interface DailyMenuService {
     DailyMenu create(DailyMenu dailyMenu);
@@ -15,7 +16,7 @@ public interface DailyMenuService {
 
     DailyMenu get(int id) throws NotFoundException;
 
-    List<DailyMenu> getByDate(Date date) ;
+    Set<DailyMenu> getByDate(Date date) ;
 
     List<DailyMenu> getByNameResto(String nameResto);
 

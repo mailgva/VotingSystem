@@ -5,6 +5,7 @@ import com.voting.to.UserTo;
 import com.voting.util.UserUtil;
 import com.voting.web.user.AbstractUserController;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +30,7 @@ public class RootController extends AbstractUserController {
         return "redirect:voting";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/users")
     public String users(Model model) {
         model = setModelAttrs(model);
@@ -47,12 +49,14 @@ public class RootController extends AbstractUserController {
         return "dailymenu";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/dishes")
     public String dishes(Model model) {
         model = setModelAttrs(model);
         return "dishes";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/restaurants")
     public String restaurants(Model model) {
         model = setModelAttrs(model);

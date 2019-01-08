@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import static com.voting.util.ValidationUtil.assureIdConsistent;
 import static com.voting.util.ValidationUtil.checkNew;
@@ -48,7 +49,7 @@ public abstract class AbstractDailyMenuController {
     }
 
 
-    public List<DailyMenu> getByDate(Date date) {
+    public Set<DailyMenu> getByDate(Date date) {
         log.info("get DailyMenu for date {} ", date);
         return service.getByDate(date);
     }

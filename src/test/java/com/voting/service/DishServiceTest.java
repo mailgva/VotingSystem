@@ -1,6 +1,6 @@
 package com.voting.service;
 
-import com.voting.DishTestData;
+import com.voting.testdata.DishTestData;
 import com.voting.model.Dish;
 import com.voting.util.exception.NotFoundException;
 import org.junit.jupiter.api.Test;
@@ -15,10 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ActiveProfiles("datajpa")
 public class DishServiceTest extends AbstractServiceTest{
-
-    static {
-        SLF4JBridgeHandler.install();
-    }
 
     @Autowired
     private DishService service;

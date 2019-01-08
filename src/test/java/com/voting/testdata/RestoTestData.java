@@ -1,4 +1,4 @@
-package com.voting;
+package com.voting.testdata;
 
 import com.voting.model.Resto;
 
@@ -17,17 +17,4 @@ public class RestoTestData {
             new Resto(restoId++, "Ресторан 5")
     );
 
-    public static Resto getById(int restoId) {
-        for(Resto resto : restos) {
-            if (resto.getId() == restoId) return resto;
-        }
-        return null;
-    }
-
-    public static Resto getByName(String name) {
-        for(Resto resto : restos) {
-            if (resto.getName().equals(name)) return resto;
-        }
-        return null;
-    }
 }

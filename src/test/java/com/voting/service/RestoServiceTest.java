@@ -1,6 +1,7 @@
 package com.voting.service;
 
-import com.voting.RestoTestData;
+import com.voting.TestUtil;
+import com.voting.testdata.RestoTestData;
 import com.voting.model.Resto;
 import org.junit.jupiter.api.Test;
 import org.slf4j.bridge.SLF4JBridgeHandler;
@@ -12,13 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ActiveProfiles("datajpa")
 public class RestoServiceTest  extends AbstractServiceTest {
 
-    static {
-        // Only for postgres driver logging
-        // It uses java.util.logging and logged via jul-to-slf4j bridge
-        SLF4JBridgeHandler.install();
-    }
-
-    @Autowired
+      @Autowired
     private RestoService service;
 
 
@@ -36,13 +31,13 @@ public class RestoServiceTest  extends AbstractServiceTest {
 
     @Test
     public void get() {
-        assertEquals(service.get(100003), RestoTestData.getById(100003));
+        assertEquals(service.get(100003), TestUtil.getById(RestoTestData.restos, 100003));
     }
 
     @Test
     public void getByName() {
         String name = "Ресторан 3";
-        assertEquals(service.getByName(name), RestoTestData.getByName(name));
+        assertEquals(service.getByName(name), TestUtil.getByName(RestoTestData.restos, name));
     }
 
     @Test
