@@ -1,21 +1,5 @@
 const dishAjaxUrl = "ajax/dishes/";
 
-function enable(chkbox, id) {
-    const enabled = chkbox.is(":checked");
-//  https://stackoverflow.com/a/22213543/548473
-    $.ajax({
-        url: dishAjaxUrl + id,
-        type: "POST",
-        data: "enabled=" + enabled
-    }).done(function () {
-        chkbox.closest("tr").attr("data-userEnabled", enabled);
-        successNoty(enabled ? "common.enabled" : "common.disabled");
-    }).fail(function () {
-        $(chkbox).prop("checked", !enabled);
-    });
-}
-
-// $(document).ready(function () {
 $(function () {
     makeEditable({
             ajaxUrl: dishAjaxUrl,
@@ -32,6 +16,17 @@ $(function () {
                     },
                     {
                         "data": "price"
+                    },
+                    {
+                        "data": "imgFilePath",
+                        "orderable": false,
+                        "defaultContent": "",
+                        "render": function (data, type, row) {
+                            if (type === "display" && data != undefined) {
+                                return "<img src='" + data + "' class='img-thumbnail img-block'/>";
+                            }
+                            return data;
+                        }
                     },
                     {
                         "orderable": false,
@@ -62,3 +57,18 @@ $(function () {
         }
     );
 });
+
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#img_file_pic').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+

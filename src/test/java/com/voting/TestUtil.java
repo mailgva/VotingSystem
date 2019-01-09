@@ -20,7 +20,7 @@ public class TestUtil {
     }
 
     public static ResultActions print(ResultActions action) throws UnsupportedEncodingException {
-        System.out.println(getContent(action.andReturn()));
+        //System.out.println(getContent(action.andReturn()));
         return action;
     }
 

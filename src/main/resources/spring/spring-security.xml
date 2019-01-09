@@ -22,6 +22,7 @@
         <intercept-url pattern="/register" access="isAnonymous()"/>
 
         <intercept-url pattern="/**/admin/**" access="hasRole('ROLE_ADMIN')"/>
+        <!--<intercept-url pattern="/upload*" access="isAuthenticated()"/>-->
         <intercept-url pattern="/**" access="isAuthenticated()"/>
 
         <form-login login-page="/login" default-target-url="/voting"

@@ -5,14 +5,22 @@ import com.voting.model.Role;
 import com.voting.model.User;
 import com.voting.model.Vote;
 
+import java.util.UUID;
+
 public class Main {
     public static void main(String[] args) {
-        //Vote vote = new Vote()
+        /*String uploadedFolder = System.getenv("VOTING_ROOT");
+        System.out.println(uploadedFolder);*/
+        String s[] = "chiken_grille.jpg".split("\\.");
+        String ss = s[1];
+        System.out.println(ss);
+        //new Ttt();
+    }
+}
 
-        /*Dish dish = new Dish(null, "Jet", 20);
-        System.out.println(dish);
+class Ttt {
+    public Ttt() {
+        System.out.println(this.getClass().getClassLoader().getResource("images"));
 
-        User user = new User(null, "TestUser", "test@mail.com", "pass", Role.ROLE_USER );
-        System.out.println(user);*/
     }
 }

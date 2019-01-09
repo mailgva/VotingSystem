@@ -20,9 +20,6 @@ public class VotingAjaxController extends AbstractVotingController {
     @GetMapping
     public List<DailyMenuTo> getDailyMenu(@RequestParam(value = "date") @DateTimeFormat(pattern="yyyy-MM-dd") Date date) {
         List<DailyMenuTo> result = super.getDailyMenu(date);
-        System.out.println("====================================");
-        result.forEach(System.out::println);
-        System.out.println("====================================");
         return super.getDailyMenu(date);
     }
 

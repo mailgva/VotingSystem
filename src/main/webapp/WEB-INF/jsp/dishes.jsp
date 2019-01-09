@@ -2,13 +2,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
 <body>
+<jsp:include page="fragments/bodyHeader.jsp"/>
 <script type="text/javascript" src="resources/js/voting.common.js" defer></script>
 <script type="text/javascript" src="resources/js/voting.dishes.js" defer></script>
-<jsp:include page="fragments/bodyHeader.jsp"/>
 
 <div class="jumbotron pt-4">
     <div class="container">
@@ -17,11 +19,13 @@
             <span class="fa fa-plus"></span>
             <spring:message code="common.add"/>
         </button>
+
         <table class="table table-striped" id="datatable">
             <thead>
             <tr>
                 <th><spring:message code="dish.name"/></th>
                 <th><spring:message code="dish.price"/></th>
+                <th></th>
                 <th></th>
                 <th></th>
             </tr>
@@ -38,7 +42,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <form id="detailsForm">
+                <form id="detailsForm" enctype="multipart/form-data">
                     <input type="hidden" id="id" name="id">
 
                     <div class="form-group">
@@ -52,6 +56,14 @@
                         <input type="numeric" class="form-control" id="price" name="price"
                                placeholder="<spring:message code="dish.price"/>">
                     </div>
+
+                    <div class="form-group">
+                        <label for="img_file" class="col-form-label"><spring:message code="dish.picture"/></label>
+                        <img src="" class="img-thumbnail" id="img_file_pic" name="img_file_pic" />
+                        <input type="file" class="form-control" id="img_file" name="img_file" accept="image/*"
+                               placeholder="<spring:message code="dish.picture"/>"  onchange="readURL(this)">
+                    </div>
+
                 </form>
             </div>
             <div class="modal-footer">

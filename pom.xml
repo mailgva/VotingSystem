@@ -240,6 +240,12 @@
             <artifactId>spring-webmvc</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.3.1</version>
+        </dependency>
+
         <!-- Webjars (static dependencies distributed as JAR files) -->
         <dependency>
             <groupId>org.webjars</groupId>
@@ -283,6 +289,11 @@
             <groupId>org.webjars.bower</groupId>
             <artifactId>noty</artifactId>
             <version>${webjars-noty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>popper.js</artifactId>
+            <version>1.14.6</version>
         </dependency>
 
         <!--JSON-->
@@ -350,6 +361,8 @@
             <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
+
+
     </dependencies>
 
     <profiles>

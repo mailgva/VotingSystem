@@ -14,6 +14,7 @@ $(function () {
     sd = d.getFullYear() + '-' + (d.getMonth()+1) + '-' + (d.getDate() + (d.getHours() < 11 ? 0 : 1));
     inp_date.val(sd);*/
     updateFace();
+
 });
 
 function updateFace() {
@@ -32,9 +33,17 @@ function updateFace() {
                  warnNoty("common.noPresentMenuDay");
              } else {
                 drawTablePanels(data,form,inp_date);
+                //$('[data-toggle="tooltip"]').tooltip();
+                 $('[data-toggle="tooltip"]').tooltip({
+                     animated: 'fade',
+                     placement: 'bottom',
+                     html: true
+                 });
              }
          }
      });
+
+
 }
 
 function drawTablePanels(data,form,inp_date) {
@@ -124,7 +133,17 @@ function drawTableBodyAuto(table, data) {
         "info": false,
         "data": data,
         "columns": [
-            {"data": "name" },
+            /*{"data": "name" },*/
+            {
+                "data": "name",
+                "render": function (data, type, row) {
+                    if (type === "display" && row.imgFilePath != undefined) {
+                        return '<a data-toggle="tooltip" data-placement="bottom" ' +
+                            'title="<img class=\'img-thumbnail img-block\' src=\'' + row.imgFilePath + '\'/>">' + data + '</a>';
+                    }
+                    return data;
+                }
+            },
             {"data": "price"}],
         "order": [ [ 0, "asc" ] ]
     });

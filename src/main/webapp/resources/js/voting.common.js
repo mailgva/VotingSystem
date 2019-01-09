@@ -25,9 +25,15 @@ function add() {
 
 function updateRow(id) {
     $("#modalTitle").html(i18n["editTitle"]);
+    form.find(":input").val("");
+    form.find("img[name='img_file_pic']").attr("src", "");
     $.get(context.ajaxUrl + id, function (data) {
         $.each(data, function (key, value) {
-            form.find("input[name='" + key + "']").val(value);
+            if(key != "imgFilePath") {
+                form.find("input[name='" + key + "']").val(value);
+            } else {
+                form.find("img[name='img_file_pic']").attr("src", value);
+            }
         });
         $('#editRow').modal();
     });
@@ -48,10 +54,27 @@ function updateTableByData(data) {
 }
 
 function save() {
+    let aForm = new FormData();
+
+    $.each($(form).find("input"), function(i, item) {
+        if($(item).prop("type") === "file") {
+            aForm.append($(item).prop("name"), $(item).get(0).files[0]);
+        } else {
+            aForm.append($(item).prop("name"), $(item).val());
+        }
+    });
+
+
     $.ajax({
+        /*type: "POST",
+        url: context.ajaxUrl,
+        data: form.serialize()*/
         type: "POST",
         url: context.ajaxUrl,
-        data: form.serialize()
+        data: aForm,
+        cache: false,
+        contentType: false,
+        processData: false
     }).done(function () {
         $("#editRow").modal("hide");
         context.updateTable();

@@ -7,15 +7,27 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static com.voting.util.Util.createErrorStrings;
 
 @RestController
 @RequestMapping("/ajax/dishes")
 public class DishAjaxController extends AbstractDishController {
+    private final String UPLOADED_DIR_PATH = System.getenv("VOTING_ROOT") + "/images/dishes/";
+    private final String DB_DIR_PATH = "pictures/dishes/";
 
     @Override
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -36,18 +48,30 @@ public class DishAjaxController extends AbstractDishController {
         super.delete(id);
     }
 
-    @PostMapping
-    public ResponseEntity<String>  createOrUpdate(@Valid Dish dish, BindingResult result) {
-        if (result.hasErrors()) {
-            String errStrings = createErrorStrings(result);
-            return new ResponseEntity<>(errStrings, HttpStatus.UNPROCESSABLE_ENTITY);
+    @PostMapping(headers = "Content-Type= multipart/form-data")
+    public void createOrUpdate(@Valid Dish dish, @RequestParam("img_file") MultipartFile file) throws IOException {
+        String imgFilePath = null;
+
+        if (!file.isEmpty()) {
+            String fileDetail[] = file.getOriginalFilename().split("\\.");
+            String extention = "." + fileDetail[fileDetail.length - 1];
+            String newFileName = UUID.randomUUID().toString() + extention;
+            imgFilePath = DB_DIR_PATH + newFileName;
+            Path path = Paths.get(UPLOADED_DIR_PATH + newFileName);
+            byte[] bytes = file.getBytes();
+            Files.write(path, bytes);
         }
+
+        dish.setImgFilePath(imgFilePath);
+
         if (dish.isNew()) {
             super.create(dish);
         } else {
             super.update(dish, dish.getId());
         }
-        return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
+
 
 }

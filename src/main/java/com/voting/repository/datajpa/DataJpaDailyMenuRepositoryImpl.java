@@ -64,34 +64,6 @@ public class DataJpaDailyMenuRepositoryImpl implements DailyMenuRepository {
     @Override
     @Transactional
     public void generateDailyMenu(Date date) {
-        System.out.println("==================BEFORE GENERATE");
-        try {
-            crudDailyMenuRepository.generateDailyMenu(date, date);
-            /*
-            SimpleDateFormat sdf =  new SimpleDateFormat("dd-MM-yyyy");
-            crudDailyMenuRepository.generateDailyMenu(sdf.format(date), sdf.format(date));*/
-
-        } catch (Exception e) {
-            System.out.println("==============ERROR GENERATE=============");
-            System.out.println(e.getLocalizedMessage());
-            System.out.println("==============ERROR END=============");
-        }
-        /*try {
-            System.out.println("==================BEFORE GENERATE");
-            SimpleDateFormat sdf =  new SimpleDateFormat("dd-MM-yyyy");
-
-            em.createStoredProcedureQuery("generatedailymenu")
-                    .registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
-                    .registerStoredProcedureParameter(2, String.class, ParameterMode.IN)
-                    .setParameter(1, sdf.format(date))
-                    .setParameter(2, sdf.format(date))
-                    .execute();
-
-        } catch (Exception e) {
-            System.out.println("==============ERROR=============");
-            System.out.println(e.getLocalizedMessage());
-            System.out.println("================================");
-        }*/
-
+        crudDailyMenuRepository.generateDailyMenu(date, date);
     }
 }

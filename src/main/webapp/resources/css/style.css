@@ -33,6 +33,30 @@ dl[data-restselected="false"] {
     background-color: white;
 }
 
+
+.img-block{
+    /*width:150px;
+    height:150px;*/
+    background:#f30;
+    display: block;
+    opacity: 1;
+    -webkit-transform: scale(1,1);
+    -webkit-transition-timing-function: ease-out;
+    -webkit-transition-duration: 550ms;
+    -moz-transform: scale(1,1);
+    -moz-transition-timing-function: ease-out;
+    -moz-transition-duration: 550ms;
+}
+.img-block:hover {
+    -webkit-transform: scale(10.2,10.2);
+    -webkit-transition-timing-function: ease-out;
+    -webkit-transition-duration: 550ms;
+    -moz-transform: scale(10.2,10.2);
+    -moz-transition-timing-function: ease-out;
+    -moz-transition-duration: 550ms;
+}
+
+
 .fa {
     cursor: pointer;
 }

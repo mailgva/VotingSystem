@@ -28,6 +28,9 @@ public class Dish extends AbstractNamedEntity {
     @Transient
     private Resto resto;
 
+    @Column(name = "img_file")
+    private String imgFilePath;
+
     public Resto getResto() {
         return resto;
     }
@@ -39,6 +42,20 @@ public class Dish extends AbstractNamedEntity {
     public Dish(Integer id, String name, double price) {
         super(id, name);
         this.price = price;
+    }
+
+    public Dish(Integer id, String name, double price, String imgFilePath) {
+        super(id, name);
+        this.price = price;
+        this.imgFilePath = imgFilePath;
+    }
+
+    public String getImgFilePath() {
+        return imgFilePath;
+    }
+
+    public void setImgFilePath(String imgFilePath) {
+        this.imgFilePath = imgFilePath;
     }
 
     public Dish() {
@@ -58,6 +75,7 @@ public class Dish extends AbstractNamedEntity {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
+                ", imgFilePath=" + imgFilePath +
                 '}';
     }
 }

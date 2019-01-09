@@ -73,7 +73,7 @@ public class VoteServiceTest extends AbstractServiceTest{
 
     @Test
     public void get() {
-        System.out.println(service.get(100065, ADMIN_ID));
+        service.get(100065, ADMIN_ID);
 
     }
 
