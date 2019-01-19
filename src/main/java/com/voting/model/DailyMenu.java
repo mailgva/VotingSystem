@@ -3,6 +3,7 @@ package com.voting.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -80,6 +81,7 @@ public class DailyMenu extends AbstractBaseEntity{
     @Column(name = "date")
     @NotNull
     @JsonFormat(pattern="yyyy-MM-dd")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date date;
 
     @ManyToOne(fetch = FetchType.LAZY)
